@@ -1,11 +1,11 @@
 import React from 'react';
 
-const GlobalLoadingPage = () => {
-    return (
-        <div>
-            Loading...
-        </div>
-    );
+const Loading = () => {
+  return (
+    <div>
+      Loading...
+    </div>
+  );
 };
 
-export default GlobalLoadingPage;
+export default Loading;

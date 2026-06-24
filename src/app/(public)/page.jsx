@@ -1,7 +1,14 @@
+import { Banner } from "@/components/home/Banner";
+import { Footer } from "@/components/shared/Footer";
+import { Navbar } from "@/components/shared/Navbar";
+
 export default function Home() {
-  return (
-    <div>
-      <h1>Welcome to startup-forge!</h1>
-    </div>
-  );
+
+  return <section>
+
+    <Navbar></Navbar>
+    <Banner></Banner>
+    <Footer></Footer>
+    
+  </section>
 }
