@@ -8,7 +8,10 @@ const ThemeToggle = () => {
   const { theme, setTheme } = useTheme();
 
   return (
-    <button className="bg-background rounded-md p-3 hover:text-blue-700" onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
+    <button
+      className="bg-background rounded-md p-3 hover:text-blue-700"
+      onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+    >
       {theme === "light" ? (
         <>
           <BiMoon></BiMoon>
