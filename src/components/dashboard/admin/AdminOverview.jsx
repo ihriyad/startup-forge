@@ -54,7 +54,7 @@ const roleData = [
   { name: "Admins", value: 327, color: "#c4b5fd" },
 ];
 
-export const AdminOverview = () => {
+export const AdminOverview = ({users}) => {
   return (
     <div className="flex flex-col gap-8">
       {/* Page Header */}

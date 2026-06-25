@@ -1,4 +1,5 @@
 import { AdminOverview } from "@/components/dashboard/admin/AdminOverview";
+import { getAllUsers } from "@/lib/api/users";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
@@ -10,7 +11,8 @@ const AdminOverviewPage = async () => {
 
   if (!session || session.user.role !== "admin") redirect("/dashboard");
 
-  return <AdminOverview></AdminOverview>;
+  const users = await getAllUsers();
+  return <AdminOverview users={users}></AdminOverview>;
 };
 
 export default AdminOverviewPage;
