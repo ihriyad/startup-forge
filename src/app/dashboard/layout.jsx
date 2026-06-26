@@ -2,6 +2,7 @@ import { Sidebar } from "@/components/dashboard/Sidebar";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import { Navbar } from "@/components/shared/Navbar";
 
 const DashboardLayout = async ({ children }) => {
   const session = await auth.api.getSession({
@@ -13,10 +14,14 @@ const DashboardLayout = async ({ children }) => {
   const role = session.user.role;
 
   return (
+    <>
+    <Navbar></Navbar>
     <div className="flex min-h-screen">
+      
       <Sidebar role={role} user={session.user} />
       <main className="flex-1 p-6 overflow-auto">{children}</main>
     </div>
+    </>
   );
 };
 

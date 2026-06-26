@@ -35,7 +35,12 @@ export const Navbar = () => {
     });
   }
 
-  const isActive = (href) => pathname === href;
+  const isActive = (href) => {
+    if (href.startsWith("/dashboard")) {
+      return pathname.startsWith("/dashboard");
+    }
+    return pathname === href;
+  };
 
   const navContent = (
     <ul className="flex flex-col md:flex-row md:items-center text-sm gap-1 p-4 md:p-0">

@@ -11,6 +11,7 @@ const NAV_CONFIG = {
     { label: "Manage Users", href: "/dashboard/admin/manage-users" },
     { label: "Manage Startups", href: "/dashboard/admin/manage-startups" },
     { label: "Transactions", href: "/dashboard/admin/transactions" },
+    { label: "Profile", href: "/dashboard/profile" },
   ],
   founder: [
     { label: "Overview", href: "/dashboard/founder" },
@@ -21,6 +22,7 @@ const NAV_CONFIG = {
       href: "/dashboard/founder/manage-opportunities",
     },
     { label: "Applications", href: "/dashboard/founder/applications" },
+    { label: "Profile", href: "/dashboard/profile" },
   ],
   collaborator: [
     { label: "Overview", href: "/dashboard/collaborator" },
@@ -28,6 +30,7 @@ const NAV_CONFIG = {
       label: "My Applications",
       href: "/dashboard/collaborator/my-applications",
     },
+    { label: "Profile", href: "/dashboard/profile" },
   ],
 };
 
@@ -54,20 +57,6 @@ export const Sidebar = ({ role, user }) => {
   const pathname = usePathname();
   const links = NAV_CONFIG[role] || [];
 
-  const profileLink = (onNavigate) => (
-    <Link
-      href="/dashboard/profile"
-      onClick={onNavigate}
-      className={`px-3 py-2 rounded-md text-sm transition-colors ${
-        pathname === "/dashboard/profile"
-          ? "bg-violet-600 text-white"
-          : "hover:bg-default-100 text-foreground-600"
-      }`}
-    >
-      Profile
-    </Link>
-  );
-
   return (
     <>
       {/* ── Desktop Sidebar ── */}
@@ -80,9 +69,6 @@ export const Sidebar = ({ role, user }) => {
 
         {/* Nav Links */}
         <NavLinks links={links} pathname={pathname} />
-
-        {/* Profile at bottom */}
-        <div className="mt-auto flex flex-col gap-1">{profileLink()}</div>
       </aside>
 
       {/* ── Mobile Drawer ── */}
@@ -118,9 +104,7 @@ export const Sidebar = ({ role, user }) => {
                   <NavLinks links={links} pathname={pathname} />
                 </Drawer.Body>
 
-                <Drawer.Footer className="flex flex-col gap-1 px-3 pb-6">
-                  {profileLink()}
-                </Drawer.Footer>
+                <Drawer.Footer></Drawer.Footer>
               </Drawer.Dialog>
             </Drawer.Content>
           </Drawer.Backdrop>
