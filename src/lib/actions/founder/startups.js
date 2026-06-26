@@ -1,6 +1,6 @@
 "use server";
 
-import { serverMutation } from "../core/server";
+import { serverMutation } from "../../core/server";
 
 export const createStartup = async (data) => {
   return await serverMutation("/api/startups", data, "POST");

@@ -1,4 +1,3 @@
-// components/dashboard/founder/AddOpportunity.jsx
 "use client";
 
 import { useRef, useState } from "react";
@@ -7,19 +6,19 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 import { FiPlusCircle } from "react-icons/fi";
-import { createOpportunity } from "@/lib/actions/oppotunities";
+import { createOpportunity } from "@/lib/actions/founder/opportunities";
 
 const WORK_TYPES = [
-  { id: "remote",   label: "Remote"    },
-  { id: "on-site",  label: "On-Site"   },
-  { id: "hybrid",   label: "Hybrid"    },
+  { id: "remote", label: "Remote" },
+  { id: "on-site", label: "On-Site" },
+  { id: "hybrid", label: "Hybrid" },
 ];
 
 const COMMITMENT_LEVELS = [
-  { id: "full-time",   label: "Full-Time"    },
-  { id: "part-time",   label: "Part-Time"    },
-  { id: "contract",    label: "Contract"     },
-  { id: "internship",  label: "Internship"   },
+  { id: "full-time", label: "Full-Time" },
+  { id: "part-time", label: "Part-Time" },
+  { id: "contract", label: "Contract" },
+  { id: "internship", label: "Internship" },
 ];
 
 // skills the user typed are stored as an array
@@ -71,7 +70,9 @@ const SkillsInput = ({ skills, setSkills }) => {
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={handleKeyDown}
         onBlur={() => addSkill(input)} // add on blur too
-        placeholder={skills.length === 0 ? "e.g. React, Node.js — press Enter to add" : ""}
+        placeholder={
+          skills.length === 0 ? "e.g. React, Node.js — press Enter to add" : ""
+        }
         className="flex-1 min-w-[140px] outline-none bg-transparent text-sm"
       />
     </div>
@@ -102,16 +103,16 @@ export const AddOpportunity = ({ user, startup }) => {
     const formData = new FormData(e.target);
 
     const payload = {
-      startup_id:       startup._id,
-      startup_name:     startup.startup_name,   // denormalized for easy display
-      role_title:       formData.get("role_title"),
-      required_skills:  skills,                 // array from state
-      work_type:        formData.get("work_type"),
+      startup_id: startup._id,
+      startup_name: startup.startup_name, // denormalized for easy display
+      role_title: formData.get("role_title"),
+      required_skills: skills, // array from state
+      work_type: formData.get("work_type"),
       commitment_level: formData.get("commitment_level"),
-      deadline:         formData.get("deadline"),
-      founder_email:    user.email,
-      status:           "open",
-      createdAt:        new Date(),
+      deadline: formData.get("deadline"),
+      founder_email: user.email,
+      status: "open",
+      createdAt: new Date(),
     };
 
     try {

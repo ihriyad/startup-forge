@@ -1,4 +1,3 @@
-// components/dashboard/founder/MyStartup.jsx
 "use client";
 
 import { useState, useRef } from "react";
@@ -10,7 +9,7 @@ import {
   createStartup,
   updateStartup,
   deleteStartup,
-} from "@/lib/actions/startups";
+} from "@/lib/actions/founder/startups";
 
 const INDUSTRIES = [
   { id: "technology", label: "Technology" },
@@ -32,12 +31,12 @@ const FUNDING_STAGES = [
 ];
 
 export const MyStartup = ({ user, existingStartup }) => {
-    // console.log(existingStartup);
+  // console.log(existingStartup);
   const formRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [logoPreview, setLogoPreview] = useState(existingStartup?.logo || null);
-  const [isEditing, setIsEditing] = useState(!existingStartup); 
+  const [isEditing, setIsEditing] = useState(!existingStartup);
 
   const handleLogoChange = (e) => {
     const file = e.target.files[0];
@@ -234,7 +233,7 @@ export const MyStartup = ({ user, existingStartup }) => {
     );
   }
 
-  // ── Create / Edit Form 
+  // ── Create / Edit Form
   return (
     <div className="flex flex-col gap-6 max-w-2xl">
       <div>
@@ -389,7 +388,9 @@ export const MyStartup = ({ user, existingStartup }) => {
             {isSubmitting ? (
               <div className="flex items-center gap-2">
                 <Spinner size="sm" color="white" />
-                <span>{existingStartup._id ? "Updating..." : "Creating..."}</span>
+                <span>
+                  {existingStartup._id ? "Updating..." : "Creating..."}
+                </span>
               </div>
             ) : existingStartup._id ? (
               "Update Startup"

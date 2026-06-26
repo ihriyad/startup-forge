@@ -1,6 +1,8 @@
 "use server";
 
-import { serverMutation } from "../core/server";
+import { serverMutation } from "@/lib/core/server";
+
+// import { serverMutation } from "../core/server";
 
 
 export const createOpportunity = async (data) => {

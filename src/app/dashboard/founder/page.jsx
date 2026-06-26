@@ -3,7 +3,6 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { FounderOverview } from "@/components/dashboard/founder/FounderOverview";
-import { publicFetch } from "@/lib/core/server";
 import { getFounderStats } from "@/lib/api/startups";
 
 const FounderOverviewPage = async () => {
