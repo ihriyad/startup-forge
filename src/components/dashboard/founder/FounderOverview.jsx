@@ -46,7 +46,7 @@ export const FounderOverview = ({ user, stats }) => {
         </div>
         <Link href="/dashboard/founder/add-opportunity">
           <Button
-            className="bg-violet-600 text-white text-sm font-medium rounded-md"
+            className="bg-violet-600 text-white text-sm font-medium rounded-md flex"
             
           >
             <FiPlusCircle size={16} /> Add Opportunity
