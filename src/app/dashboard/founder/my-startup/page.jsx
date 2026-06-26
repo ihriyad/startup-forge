@@ -14,7 +14,7 @@ const MyStartupPage = async () => {
   if (!session || session.user.role !== "founder") redirect("/dashboard");
 
   const startup = await getFounderStartup();
-  console.log(startup, "founder startup");
+  // console.log(startup, "founder startup");
 
   return <MyStartup user={session.user} existingStartup={startup} />;
 };
