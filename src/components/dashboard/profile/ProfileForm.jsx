@@ -170,9 +170,7 @@ export const ProfileForm = ({ initialUser }) => {
               disabled={isUploading || isSaving}
               size="sm"
               variant="bordered"
-              startContent={
-                !isUploading && <FiUploadCloud className="text-lg" />
-              }
+            
               className="border-violet-600 text-violet-600 hover:bg-violet-50 font-medium px-4"
             >
               {isUploading ? "Uploading..." : "Upload Photo"}

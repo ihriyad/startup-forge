@@ -274,7 +274,7 @@ export const AddOpportunity = ({ user, startup }) => {
             type="submit"
             disabled={isSubmitting}
             className="bg-violet-600 text-white text-sm font-medium px-6"
-            startContent={!isSubmitting && <FiPlusCircle size={15} />}
+            
           >
             {isSubmitting ? (
               <div className="flex items-center gap-2">
@@ -282,7 +282,7 @@ export const AddOpportunity = ({ user, startup }) => {
                 <span>Posting...</span>
               </div>
             ) : (
-              "Post Opportunity"
+              <p> <FiPlusCircle size={15} />Post Opportunity</p>
             )}
           </Button>
         </div>

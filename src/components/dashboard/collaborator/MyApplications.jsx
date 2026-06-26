@@ -140,7 +140,7 @@ export const MyApplications = ({ applications }) => {
           {/* Desktop — table */}
           <div className="hidden md:block">
             <Table>
-              <Table.ScrollContainer minWidth={650}>
+              <Table.ScrollContainer >
                 <Table.Content aria-label="My applications">
                   <Table.Header>
                     <Table.Column isRowHeader className="w-10">#</Table.Column>

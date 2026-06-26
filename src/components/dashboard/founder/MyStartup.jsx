@@ -175,20 +175,20 @@ export const MyStartup = ({ user, existingStartup }) => {
               size="sm"
               variant="flat"
               className="text-violet-600 bg-violet-100 dark:bg-violet-900/30"
-              startContent={<FiEdit2 size={14} />}
+             
               onClick={() => setIsEditing(true)}
             >
-              Edit
+              <FiEdit2 size={14} /> Edit
             </Button>
             <Button
               size="sm"
               variant="flat"
               isLoading={isDeleting}
               className="text-red-600 bg-red-100 dark:bg-red-900/30"
-              startContent={<FiTrash2 size={14} />}
+             
               onClick={handleDelete}
             >
-              Delete
+             <FiTrash2 size={14} /> Delete
             </Button>
           </div>
         </div>

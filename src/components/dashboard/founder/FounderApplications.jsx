@@ -119,9 +119,9 @@ const ApplicationCard = ({ app, onAction, actionLoadingId }) => {
               isLoading={isLoading}
               onClick={() => onAction(app._id, "rejected")}
               className="bg-red-100 text-red-600 hover:bg-red-200 dark:bg-red-900/30 dark:text-red-400 text-xs"
-              startContent={!isLoading && <FiX size={13} />}
+             
             >
-              Decline
+             <FiX size={13} /> Decline
             </Button>
             <Button
               size="sm"
@@ -129,9 +129,9 @@ const ApplicationCard = ({ app, onAction, actionLoadingId }) => {
               isLoading={isLoading}
               onClick={() => onAction(app._id, "accepted")}
               className="bg-green-100 text-green-700 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-400 text-xs"
-              startContent={!isLoading && <FiCheck size={13} />}
+              
             >
-              Accept
+            <FiCheck size={13} />  Accept
             </Button>
           </div>
         ) : (

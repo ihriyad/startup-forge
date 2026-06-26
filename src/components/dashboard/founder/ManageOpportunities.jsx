@@ -10,21 +10,22 @@ import {
 } from "@/lib/actions/founder/opportunities";
 
 const WORK_TYPES = [
-  { id: "remote",  label: "Remote"  },
+  { id: "remote", label: "Remote" },
   { id: "on-site", label: "On-Site" },
-  { id: "hybrid",  label: "Hybrid"  },
+  { id: "hybrid", label: "Hybrid" },
 ];
 
 const COMMITMENT_LEVELS = [
-  { id: "full-time",  label: "Full-Time"  },
-  { id: "part-time",  label: "Part-Time"  },
-  { id: "contract",   label: "Contract"   },
+  { id: "full-time", label: "Full-Time" },
+  { id: "part-time", label: "Part-Time" },
+  { id: "contract", label: "Contract" },
   { id: "internship", label: "Internship" },
 ];
 
 const selectClass = {
-  trigger: "border-b-2 border-violet-600 py-1.5 px-0 bg-transparent after:bg-violet-600 h-8 min-h-0",
-  value:   "text-xs text-foreground pl-1",
+  trigger:
+    "border-b-2 border-violet-600 py-1.5 px-0 bg-transparent after:bg-violet-600 h-8 min-h-0",
+  value: "text-xs text-foreground pl-1",
 };
 
 const SkillTags = ({ skills }) => (
@@ -42,10 +43,12 @@ const SkillTags = ({ skills }) => (
 
 // ── Edit Row Form ────────────────────────────────────────────────────────────
 const EditRowForm = ({ opportunity, onSave, onCancel, isSaving }) => {
-  const [skills,          setSkills]          = useState(opportunity.required_skills ?? []);
-  const [skillInput,      setSkillInput]      = useState("");
-  const [workType,        setWorkType]        = useState(opportunity.work_type ?? "");
-  const [commitmentLevel, setCommitmentLevel] = useState(opportunity.commitment_level ?? "");
+  const [skills, setSkills] = useState(opportunity.required_skills ?? []);
+  const [skillInput, setSkillInput] = useState("");
+  const [workType, setWorkType] = useState(opportunity.work_type ?? "");
+  const [commitmentLevel, setCommitmentLevel] = useState(
+    opportunity.commitment_level ?? "",
+  );
   const formRef = useRef(null);
 
   const addSkill = (raw) => {
@@ -85,11 +88,11 @@ const EditRowForm = ({ opportunity, onSave, onCancel, isSaving }) => {
     }
 
     onSave({
-      role_title:       formData.get("role_title"),
-      work_type:        workType,        // from state
+      role_title: formData.get("role_title"),
+      work_type: workType, // from state
       commitment_level: commitmentLevel, // from state
-      deadline:         formData.get("deadline"),
-      required_skills:  skills,
+      deadline: formData.get("deadline"),
+      required_skills: skills,
     });
   };
 
@@ -200,20 +203,18 @@ const EditRowForm = ({ opportunity, onSave, onCancel, isSaving }) => {
           type="button"
           variant="flat"
           onClick={onCancel}
-          startContent={<FiX size={13} />}
           className="text-xs"
         >
-          Cancel
+          <FiX size={13} /> Cancel
         </Button>
         <Button
           size="sm"
           type="button"
           isLoading={isSaving}
           onClick={handleSave}
-          startContent={!isSaving && <FiCheck size={13} />}
           className="bg-violet-600 text-white text-xs"
         >
-          Save
+          <FiCheck size={13} /> Save
         </Button>
       </div>
     </form>
@@ -223,8 +224,8 @@ const EditRowForm = ({ opportunity, onSave, onCancel, isSaving }) => {
 // ── Main Component ───────────────────────────────────────────────────────────
 export const ManageOpportunities = ({ opportunities: initial }) => {
   const [opportunities, setOpportunities] = useState(initial);
-  const [editingId,  setEditingId]  = useState(null);
-  const [savingId,   setSavingId]   = useState(null);
+  const [editingId, setEditingId] = useState(null);
+  const [savingId, setSavingId] = useState(null);
   const [deletingId, setDeletingId] = useState(null);
 
   const handleSave = async (id, updatedFields) => {
@@ -232,7 +233,7 @@ export const ManageOpportunities = ({ opportunities: initial }) => {
     try {
       await updateOpportunity(id, updatedFields);
       setOpportunities((prev) =>
-        prev.map((o) => (o._id === id ? { ...o, ...updatedFields } : o))
+        prev.map((o) => (o._id === id ? { ...o, ...updatedFields } : o)),
       );
       toast.success("Opportunity updated.");
       setEditingId(null);
@@ -275,7 +276,9 @@ export const ManageOpportunities = ({ opportunities: initial }) => {
         <Table.ScrollContainer>
           <Table.Content aria-label="Opportunities table">
             <Table.Header>
-              <Table.Column isRowHeader className="w-10">#</Table.Column>
+              <Table.Column isRowHeader className="w-10">
+                #
+              </Table.Column>
               <Table.Column>Role</Table.Column>
               <Table.Column>Skills</Table.Column>
               <Table.Column>Work Type</Table.Column>
@@ -336,8 +339,8 @@ export const ManageOpportunities = ({ opportunities: initial }) => {
                       <span className="text-sm text-foreground-500">
                         {new Date(opp.deadline).toLocaleDateString("en-US", {
                           month: "short",
-                          day:   "numeric",
-                          year:  "numeric",
+                          day: "numeric",
+                          year: "numeric",
                         })}
                       </span>
                     )}

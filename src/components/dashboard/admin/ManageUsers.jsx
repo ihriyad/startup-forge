@@ -40,7 +40,7 @@ export const ManageUsers = ({ users: initialUsers }) => {
       </div>
 
       <Table>
-        <Table.ScrollContainer minWidth={600}>
+        <Table.ScrollContainer >
           <Table.Content aria-label="Users table">
             <Table.Header>
               <Table.Column isRowHeader className="w-10">

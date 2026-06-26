@@ -22,14 +22,14 @@ export default function GlobalErrorPage({ error, reset }) {
       <div className="flex flex-wrap justify-center gap-4">
         <Button
           color="primary"
-          startContent={<FiRefreshCw />}
+         
           onPress={() => reset()}
         >
-          Try Again
+        <FiRefreshCw />  Try Again
         </Button>
 
-        <Button as={Link} href="/" variant="bordered" startContent={<BiHome />}>
-          Back Home
+        <Button as={Link} href="/" variant="bordered" >
+        <BiHome />  Back Home
         </Button>
       </div>
 
