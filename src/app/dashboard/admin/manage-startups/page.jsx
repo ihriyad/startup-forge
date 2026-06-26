@@ -1,5 +1,5 @@
 import { ManageStartups } from "@/components/dashboard/admin/ManageStartups";
-import { getStartups } from "@/lib/api/admin/startups";
+import { getAdminStartups } from "@/lib/api/startups";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
@@ -12,7 +12,7 @@ const ManageStartupsPage = async () => {
 
   if (!session || session.user.role !== "admin") redirect("/dashboard");
 
-  const startups = await getStartups()
+  const startups = await getAdminStartups()
 
   return <ManageStartups startups={startups ?? []} />;
 };

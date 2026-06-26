@@ -39,6 +39,12 @@ export const Navbar = () => {
     if (href.startsWith("/dashboard")) {
       return pathname.startsWith("/dashboard");
     }
+    if (href.startsWith("/startups")) {
+      return pathname.startsWith("/startups");
+    }
+    if (href.startsWith("/opportunities")) {
+      return pathname.startsWith("/opportunities");
+    }
     return pathname === href;
   };
 
