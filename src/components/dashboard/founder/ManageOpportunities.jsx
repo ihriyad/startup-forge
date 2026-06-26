@@ -1,32 +1,32 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { Table, Button, Spinner } from "@heroui/react";
+import { Table, Button, Spinner, Select, ListBox } from "@heroui/react";
 import { toast } from "sonner";
 import { FiEdit2, FiTrash2, FiX, FiCheck } from "react-icons/fi";
 import {
   deleteOpportunity,
   updateOpportunity,
 } from "@/lib/actions/founder/opportunities";
-// import {
-//   updateOpportunity,
-//   deleteOpportunity,
-// } from "@/lib/actions/opportunities";
 
 const WORK_TYPES = [
-  { id: "remote", label: "Remote" },
+  { id: "remote",  label: "Remote"  },
   { id: "on-site", label: "On-Site" },
-  { id: "hybrid", label: "Hybrid" },
+  { id: "hybrid",  label: "Hybrid"  },
 ];
 
 const COMMITMENT_LEVELS = [
-  { id: "full-time", label: "Full-Time" },
-  { id: "part-time", label: "Part-Time" },
-  { id: "contract", label: "Contract" },
+  { id: "full-time",  label: "Full-Time"  },
+  { id: "part-time",  label: "Part-Time"  },
+  { id: "contract",   label: "Contract"   },
   { id: "internship", label: "Internship" },
 ];
 
-// inline skills tag display
+const selectClass = {
+  trigger: "border-b-2 border-violet-600 py-1.5 px-0 bg-transparent after:bg-violet-600 h-8 min-h-0",
+  value:   "text-xs text-foreground pl-1",
+};
+
 const SkillTags = ({ skills }) => (
   <div className="flex flex-wrap gap-1">
     {skills?.map((skill) => (
@@ -41,10 +41,11 @@ const SkillTags = ({ skills }) => (
 );
 
 // ── Edit Row Form ────────────────────────────────────────────────────────────
-// renders inline inside the table row when editing
 const EditRowForm = ({ opportunity, onSave, onCancel, isSaving }) => {
-  const [skills, setSkills] = useState(opportunity.required_skills ?? []);
-  const [skillInput, setSkillInput] = useState("");
+  const [skills,          setSkills]          = useState(opportunity.required_skills ?? []);
+  const [skillInput,      setSkillInput]      = useState("");
+  const [workType,        setWorkType]        = useState(opportunity.work_type ?? "");
+  const [commitmentLevel, setCommitmentLevel] = useState(opportunity.commitment_level ?? "");
   const formRef = useRef(null);
 
   const addSkill = (raw) => {
@@ -69,16 +70,26 @@ const EditRowForm = ({ opportunity, onSave, onCancel, isSaving }) => {
 
   const handleSave = () => {
     const formData = new FormData(formRef.current);
+
     if (skills.length === 0) {
       toast.error("At least one skill is required.");
       return;
     }
+    if (!workType) {
+      toast.error("Please select a work type.");
+      return;
+    }
+    if (!commitmentLevel) {
+      toast.error("Please select a commitment level.");
+      return;
+    }
+
     onSave({
-      role_title: formData.get("role_title"),
-      work_type: formData.get("work_type"),
-      commitment_level: formData.get("commitment_level"),
-      deadline: formData.get("deadline"),
-      required_skills: skills,
+      role_title:       formData.get("role_title"),
+      work_type:        workType,        // from state
+      commitment_level: commitmentLevel, // from state
+      deadline:         formData.get("deadline"),
+      required_skills:  skills,
     });
   };
 
@@ -93,30 +104,55 @@ const EditRowForm = ({ opportunity, onSave, onCancel, isSaving }) => {
         className="w-full outline-none border-b-2 border-violet-600 p-1.5 bg-transparent text-sm"
       />
 
-      {/* Work Type + Commitment */}
+      {/* Work Type + Commitment — HeroUI Select controlled */}
       <div className="grid grid-cols-2 gap-3">
-        <select
-          name="work_type"
-          defaultValue={opportunity.work_type}
-          className="w-full outline-none border-b-2 border-violet-600 p-1.5 bg-transparent text-sm text-foreground"
+        <Select
+          selectedKey={workType}
+          onSelectionChange={(key) => setWorkType(key)}
+          variant="underlined"
+          color="secondary"
+          placeholder="Work type"
+          className="w-full"
+          classNames={selectClass}
         >
-          {WORK_TYPES.map(({ id, label }) => (
-            <option key={id} value={id}>
-              {label}
-            </option>
-          ))}
-        </select>
-        <select
-          name="commitment_level"
-          defaultValue={opportunity.commitment_level}
-          className="w-full outline-none border-b-2 border-violet-600 p-1.5 bg-transparent text-sm text-foreground"
+          <Select.Trigger>
+            <Select.Value />
+            <Select.Indicator />
+          </Select.Trigger>
+          <Select.Popover>
+            <ListBox>
+              {WORK_TYPES.map(({ id, label }) => (
+                <ListBox.Item key={id} id={id} textValue={label}>
+                  {label}
+                </ListBox.Item>
+              ))}
+            </ListBox>
+          </Select.Popover>
+        </Select>
+
+        <Select
+          selectedKey={commitmentLevel}
+          onSelectionChange={(key) => setCommitmentLevel(key)}
+          variant="underlined"
+          color="secondary"
+          placeholder="Commitment"
+          className="w-full"
+          classNames={selectClass}
         >
-          {COMMITMENT_LEVELS.map(({ id, label }) => (
-            <option key={id} value={id}>
-              {label}
-            </option>
-          ))}
-        </select>
+          <Select.Trigger>
+            <Select.Value />
+            <Select.Indicator />
+          </Select.Trigger>
+          <Select.Popover>
+            <ListBox>
+              {COMMITMENT_LEVELS.map(({ id, label }) => (
+                <ListBox.Item key={id} id={id} textValue={label}>
+                  {label}
+                </ListBox.Item>
+              ))}
+            </ListBox>
+          </Select.Popover>
+        </Select>
       </div>
 
       {/* Deadline */}
@@ -187,16 +223,16 @@ const EditRowForm = ({ opportunity, onSave, onCancel, isSaving }) => {
 // ── Main Component ───────────────────────────────────────────────────────────
 export const ManageOpportunities = ({ opportunities: initial }) => {
   const [opportunities, setOpportunities] = useState(initial);
-  const [editingId, setEditingId] = useState(null); // which row is in edit mode
-  const [savingId, setSavingId] = useState(null); // which row is saving
-  const [deletingId, setDeletingId] = useState(null); // which row is deleting
+  const [editingId,  setEditingId]  = useState(null);
+  const [savingId,   setSavingId]   = useState(null);
+  const [deletingId, setDeletingId] = useState(null);
 
   const handleSave = async (id, updatedFields) => {
     setSavingId(id);
     try {
       await updateOpportunity(id, updatedFields);
       setOpportunities((prev) =>
-        prev.map((o) => (o._id === id ? { ...o, ...updatedFields } : o)),
+        prev.map((o) => (o._id === id ? { ...o, ...updatedFields } : o))
       );
       toast.success("Opportunity updated.");
       setEditingId(null);
@@ -223,7 +259,6 @@ export const ManageOpportunities = ({ opportunities: initial }) => {
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Header */}
       <div className="flex items-start justify-between flex-wrap gap-4">
         <div>
           <h1 className="text-2xl font-semibold text-foreground">
@@ -236,12 +271,11 @@ export const ManageOpportunities = ({ opportunities: initial }) => {
         </div>
       </div>
 
-      {/* Table */}
       <Table>
-        <Table.ScrollContainer >
+        <Table.ScrollContainer>
           <Table.Content aria-label="Opportunities table">
             <Table.Header>
-              <Table.Column isRowHeader  className="w-10">#</Table.Column>
+              <Table.Column isRowHeader className="w-10">#</Table.Column>
               <Table.Column>Role</Table.Column>
               <Table.Column>Skills</Table.Column>
               <Table.Column>Work Type</Table.Column>
@@ -254,14 +288,12 @@ export const ManageOpportunities = ({ opportunities: initial }) => {
             <Table.Body emptyContent="No opportunities posted yet.">
               {opportunities.map((opp, index) => (
                 <Table.Row key={opp._id}>
-                  {/* # */}
                   <Table.Cell>
                     <span className="text-sm text-foreground-400">
                       {index + 1}
                     </span>
                   </Table.Cell>
 
-                  {/* Role — expands to edit form when editing */}
                   <Table.Cell>
                     {editingId === opp._id ? (
                       <EditRowForm
@@ -277,14 +309,12 @@ export const ManageOpportunities = ({ opportunities: initial }) => {
                     )}
                   </Table.Cell>
 
-                  {/* Skills */}
                   <Table.Cell>
                     {editingId !== opp._id && (
                       <SkillTags skills={opp.required_skills} />
                     )}
                   </Table.Cell>
 
-                  {/* Work Type */}
                   <Table.Cell>
                     {editingId !== opp._id && (
                       <span className="text-sm text-foreground-500 capitalize">
@@ -293,7 +323,6 @@ export const ManageOpportunities = ({ opportunities: initial }) => {
                     )}
                   </Table.Cell>
 
-                  {/* Commitment */}
                   <Table.Cell>
                     {editingId !== opp._id && (
                       <span className="text-sm text-foreground-500 capitalize">
@@ -302,20 +331,18 @@ export const ManageOpportunities = ({ opportunities: initial }) => {
                     )}
                   </Table.Cell>
 
-                  {/* Deadline */}
                   <Table.Cell>
                     {editingId !== opp._id && (
                       <span className="text-sm text-foreground-500">
                         {new Date(opp.deadline).toLocaleDateString("en-US", {
                           month: "short",
-                          day: "numeric",
-                          year: "numeric",
+                          day:   "numeric",
+                          year:  "numeric",
                         })}
                       </span>
                     )}
                   </Table.Cell>
 
-                  {/* Status */}
                   <Table.Cell>
                     {editingId !== opp._id && (
                       <span
@@ -330,7 +357,6 @@ export const ManageOpportunities = ({ opportunities: initial }) => {
                     )}
                   </Table.Cell>
 
-                  {/* Actions */}
                   <Table.Cell>
                     {editingId !== opp._id && (
                       <div className="flex justify-end gap-2">

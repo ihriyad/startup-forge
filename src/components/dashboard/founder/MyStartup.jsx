@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import Image from "next/image";
-import { Button, Spinner } from "@heroui/react";
+import { Button, Spinner, Select, ListBox } from "@heroui/react";
 import { FiUploadCloud, FiEdit2, FiTrash2 } from "react-icons/fi";
 import { toast } from "sonner";
 import {
@@ -30,13 +30,24 @@ const FUNDING_STAGES = [
   { id: "growth", label: "Growth" },
 ];
 
+const selectClass = {
+  trigger:
+    "border-b-2 border-violet-600 py-2 px-0 bg-transparent after:bg-violet-600",
+  value: "text-sm text-foreground pl-2",
+};
+
 export const MyStartup = ({ user, existingStartup }) => {
-  // console.log(existingStartup);
   const formRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [logoPreview, setLogoPreview] = useState(existingStartup?.logo || null);
   const [isEditing, setIsEditing] = useState(!existingStartup);
+
+  // controlled state for HeroUI selects
+  const [industry, setIndustry] = useState(existingStartup?.industry || "");
+  const [fundingStage, setFundingStage] = useState(
+    existingStartup?.funding_stage || "",
+  );
 
   const handleLogoChange = (e) => {
     const file = e.target.files[0];
@@ -52,35 +63,43 @@ export const MyStartup = ({ user, existingStartup }) => {
 
   const handleReset = () => {
     setLogoPreview(existingStartup?.logo || null);
+    setIndustry(existingStartup?.industry || "");
+    setFundingStage(existingStartup?.funding_stage || "");
     formRef.current?.reset();
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!industry) {
+      toast.error("Please select an industry.");
+      return;
+    }
+    if (!fundingStage) {
+      toast.error("Please select a funding stage.");
+      return;
+    }
+
     setIsSubmitting(true);
 
     const formData = new FormData(e.target);
     const logoFile = formData.get("logo");
     let uploadedLogoUrl = existingStartup?.logo || null;
 
-    // upload to ImgBB only if a new file was selected
     if (logoFile?.size > 0) {
       if (logoFile.size > 5 * 1024 * 1024) {
         toast.error("Logo must be under 5MB.");
         setIsSubmitting(false);
         return;
       }
-
       try {
         const imgBbForm = new FormData();
         imgBbForm.append("image", logoFile);
-
         const res = await fetch(
           `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API_KEY}`,
           { method: "POST", body: imgBbForm },
         );
         const result = await res.json();
-
         if (result.success) {
           uploadedLogoUrl = result.data.url;
         } else {
@@ -93,9 +112,9 @@ export const MyStartup = ({ user, existingStartup }) => {
 
     const payload = {
       startup_name: formData.get("startup_name"),
-      industry: formData.get("industry"),
+      industry, // from state
+      funding_stage: fundingStage, // from state
       description: formData.get("description"),
-      funding_stage: formData.get("funding_stage"),
       founder_email: user.email,
       logo: uploadedLogoUrl,
       status: existingStartup?.status || "pending",
@@ -103,7 +122,7 @@ export const MyStartup = ({ user, existingStartup }) => {
     };
 
     try {
-      if (existingStartup._id) {
+      if (existingStartup?._id) {
         await updateStartup(existingStartup._id, payload);
         toast.success("Startup updated successfully.");
       } else {
@@ -138,7 +157,7 @@ export const MyStartup = ({ user, existingStartup }) => {
     }
   };
 
-  // ── View Mode (startup exists and not editing) ─────────────────────────────
+  // ── View Mode ──────────────────────────────────────────────────────────────
   if (existingStartup?._id && !isEditing) {
     return (
       <div className="flex flex-col gap-6 max-w-2xl">
@@ -175,7 +194,6 @@ export const MyStartup = ({ user, existingStartup }) => {
         </div>
 
         <div className="border border-default-100 rounded-xl p-6 flex flex-col gap-5">
-          {/* Logo + Name */}
           <div className="flex items-center gap-4">
             {existingStartup.logo ? (
               <Image
@@ -206,7 +224,6 @@ export const MyStartup = ({ user, existingStartup }) => {
             </div>
           </div>
 
-          {/* Details grid */}
           <div className="grid grid-cols-2 gap-4">
             {[
               { label: "Industry", value: existingStartup.industry },
@@ -233,15 +250,15 @@ export const MyStartup = ({ user, existingStartup }) => {
     );
   }
 
-  // ── Create / Edit Form
+  // ── Create / Edit Form ─────────────────────────────────────────────────────
   return (
     <div className="flex flex-col gap-6 max-w-2xl">
       <div>
         <h1 className="text-2xl font-semibold text-foreground">
-          {existingStartup._id ? "Edit Startup" : "Create Your Startup"}
+          {existingStartup?._id ? "Edit Startup" : "Create Your Startup"}
         </h1>
         <p className="text-sm text-foreground-500 mt-1">
-          {existingStartup._id
+          {existingStartup?._id
             ? "Update your startup profile."
             : "Set up your startup profile to start posting opportunities."}
         </p>
@@ -271,21 +288,29 @@ export const MyStartup = ({ user, existingStartup }) => {
             <label className="text-xs font-medium text-foreground-600">
               Industry <span className="text-red-500">*</span>
             </label>
-            <select
-              required
-              name="industry"
-              defaultValue={existingStartup?.industry || ""}
-              className="w-full outline-none border-b-2 border-violet-600 p-2 bg-transparent text-sm text-foreground"
+            <Select
+              selectedKey={industry}
+              onSelectionChange={(key) => setIndustry(key)}
+              variant="underlined"
+              color="secondary"
+              placeholder="Select industry"
+              className="w-full"
+              classNames={selectClass}
             >
-              <option value="" disabled>
-                Select industry
-              </option>
-              {INDUSTRIES.map(({ id, label }) => (
-                <option key={id} value={id}>
-                  {label}
-                </option>
-              ))}
-            </select>
+              <Select.Trigger>
+                <Select.Value />
+                <Select.Indicator />
+              </Select.Trigger>
+              <Select.Popover>
+                <ListBox>
+                  {INDUSTRIES.map(({ id, label }) => (
+                    <ListBox.Item key={id} id={id} textValue={label}>
+                      {label}
+                    </ListBox.Item>
+                  ))}
+                </ListBox>
+              </Select.Popover>
+            </Select>
           </div>
         </div>
 
@@ -295,21 +320,29 @@ export const MyStartup = ({ user, existingStartup }) => {
             <label className="text-xs font-medium text-foreground-600">
               Funding Stage <span className="text-red-500">*</span>
             </label>
-            <select
-              required
-              name="funding_stage"
-              defaultValue={existingStartup?.funding_stage || ""}
-              className="w-full outline-none border-b-2 border-violet-600 p-2 bg-transparent text-sm text-foreground"
+            <Select
+              selectedKey={fundingStage}
+              onSelectionChange={(key) => setFundingStage(key)}
+              variant="underlined"
+              color="secondary"
+              placeholder="Select stage"
+              className="w-full"
+              classNames={selectClass}
             >
-              <option value="" disabled>
-                Select stage
-              </option>
-              {FUNDING_STAGES.map(({ id, label }) => (
-                <option key={id} value={id}>
-                  {label}
-                </option>
-              ))}
-            </select>
+              <Select.Trigger>
+                <Select.Value />
+                <Select.Indicator />
+              </Select.Trigger>
+              <Select.Popover>
+                <ListBox>
+                  {FUNDING_STAGES.map(({ id, label }) => (
+                    <ListBox.Item key={id} id={id} textValue={label}>
+                      {label}
+                    </ListBox.Item>
+                  ))}
+                </ListBox>
+              </Select.Popover>
+            </Select>
           </div>
 
           {/* Logo Upload */}
@@ -361,13 +394,13 @@ export const MyStartup = ({ user, existingStartup }) => {
             placeholder="Tell collaborators about your startup's mission and vision..."
             defaultValue={existingStartup?.description}
             rows={4}
-            className="w-full outline-none border-2 border-violet-600 rounded-lg p-3 bg-transparent text-sm resize-none focus:border-violet-500"
+            className="w-full outline-none border-2 border-violet-600 rounded-lg p-3 bg-transparent text-sm resize-none"
           />
         </div>
 
         {/* Actions */}
         <div className="flex justify-end gap-3 pt-2">
-          {existingStartup._id && (
+          {existingStartup?._id && (
             <Button
               type="button"
               variant="flat"
@@ -389,10 +422,10 @@ export const MyStartup = ({ user, existingStartup }) => {
               <div className="flex items-center gap-2">
                 <Spinner size="sm" color="white" />
                 <span>
-                  {existingStartup._id ? "Updating..." : "Creating..."}
+                  {existingStartup?._id ? "Updating..." : "Creating..."}
                 </span>
               </div>
-            ) : existingStartup._id ? (
+            ) : existingStartup?._id ? (
               "Update Startup"
             ) : (
               "Create Startup"

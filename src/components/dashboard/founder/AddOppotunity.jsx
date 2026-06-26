@@ -1,28 +1,30 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { Button, Spinner } from "@heroui/react";
+import { Button, ListBox, Spinner, Select } from "@heroui/react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-
 import { FiPlusCircle } from "react-icons/fi";
 import { createOpportunity } from "@/lib/actions/founder/opportunities";
 
 const WORK_TYPES = [
-  { id: "remote", label: "Remote" },
+  { id: "remote",  label: "Remote"  },
   { id: "on-site", label: "On-Site" },
-  { id: "hybrid", label: "Hybrid" },
+  { id: "hybrid",  label: "Hybrid"  },
 ];
 
 const COMMITMENT_LEVELS = [
-  { id: "full-time", label: "Full-Time" },
-  { id: "part-time", label: "Part-Time" },
-  { id: "contract", label: "Contract" },
+  { id: "full-time",  label: "Full-Time"  },
+  { id: "part-time",  label: "Part-Time"  },
+  { id: "contract",   label: "Contract"   },
   { id: "internship", label: "Internship" },
 ];
 
-// skills the user typed are stored as an array
-// they type one skill and press Enter or comma to add it
+const selectClass = {
+  trigger: "border-b-2 border-violet-600 py-2 px-0 bg-transparent after:bg-violet-600",
+  value:   "text-sm text-foreground pl-2",
+};
+
 const SkillsInput = ({ skills, setSkills }) => {
   const [input, setInput] = useState("");
 
@@ -38,7 +40,6 @@ const SkillsInput = ({ skills, setSkills }) => {
       e.preventDefault();
       addSkill(input);
     }
-    // backspace on empty input removes last skill
     if (e.key === "Backspace" && !input) {
       setSkills((prev) => prev.slice(0, -1));
     }
@@ -69,7 +70,7 @@ const SkillsInput = ({ skills, setSkills }) => {
         value={input}
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={handleKeyDown}
-        onBlur={() => addSkill(input)} // add on blur too
+        onBlur={() => addSkill(input)}
         placeholder={
           skills.length === 0 ? "e.g. React, Node.js — press Enter to add" : ""
         }
@@ -80,13 +81,18 @@ const SkillsInput = ({ skills, setSkills }) => {
 };
 
 export const AddOpportunity = ({ user, startup }) => {
-  const router = useRouter();
+  const router  = useRouter();
   const formRef = useRef(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [skills, setSkills] = useState([]);
+
+  const [isSubmitting,    setIsSubmitting]    = useState(false);
+  const [skills,          setSkills]          = useState([]);
+  const [workType,        setWorkType]        = useState("");
+  const [commitmentLevel, setCommitmentLevel] = useState("");
 
   const handleReset = () => {
     setSkills([]);
+    setWorkType("");
+    setCommitmentLevel("");
     formRef.current?.reset();
   };
 
@@ -97,22 +103,30 @@ export const AddOpportunity = ({ user, startup }) => {
       toast.error("Please add at least one required skill.");
       return;
     }
+    if (!workType) {
+      toast.error("Please select a work type.");
+      return;
+    }
+    if (!commitmentLevel) {
+      toast.error("Please select a commitment level.");
+      return;
+    }
 
     setIsSubmitting(true);
 
     const formData = new FormData(e.target);
 
     const payload = {
-      startup_id: startup._id,
-      startup_name: startup.startup_name, // denormalized for easy display
-      role_title: formData.get("role_title"),
-      required_skills: skills, // array from state
-      work_type: formData.get("work_type"),
-      commitment_level: formData.get("commitment_level"),
-      deadline: formData.get("deadline"),
-      founder_email: user.email,
-      status: "open",
-      createdAt: new Date(),
+      startup_id:       startup._id,
+      startup_name:     startup.startup_name,
+      role_title:       formData.get("role_title"),
+      required_skills:  skills,
+      work_type:        workType,
+      commitment_level: commitmentLevel,
+      deadline:         formData.get("deadline"),
+      founder_email:    user.email,
+      status:           "open",
+      createdAt:        new Date(),
     };
 
     try {
@@ -129,7 +143,6 @@ export const AddOpportunity = ({ user, startup }) => {
 
   return (
     <div className="flex flex-col gap-6 max-w-2xl">
-      {/* Header */}
       <div>
         <h1 className="text-2xl font-semibold text-foreground">
           Add Opportunity
@@ -165,21 +178,29 @@ export const AddOpportunity = ({ user, startup }) => {
             <label className="text-xs font-medium text-foreground-600">
               Work Type <span className="text-red-500">*</span>
             </label>
-            <select
-              required
-              name="work_type"
-              defaultValue=""
-              className="w-full outline-none border-b-2 border-violet-600 p-2 bg-transparent text-sm text-foreground"
+            <Select
+              selectedKey={workType}
+              onSelectionChange={(key) => setWorkType(key)}
+              variant="underlined"
+              color="secondary"
+              placeholder="Select work type"
+              className="w-full"
+              classNames={selectClass}
             >
-              <option value="" disabled>
-                Select work type
-              </option>
-              {WORK_TYPES.map(({ id, label }) => (
-                <option key={id} value={id}>
-                  {label}
-                </option>
-              ))}
-            </select>
+              <Select.Trigger>
+                <Select.Value />
+                <Select.Indicator />
+              </Select.Trigger>
+              <Select.Popover>
+                <ListBox>
+                  {WORK_TYPES.map(({ id, label }) => (
+                    <ListBox.Item key={id} id={id} textValue={label}>
+                      {label}
+                    </ListBox.Item>
+                  ))}
+                </ListBox>
+              </Select.Popover>
+            </Select>
           </div>
         </div>
 
@@ -189,21 +210,29 @@ export const AddOpportunity = ({ user, startup }) => {
             <label className="text-xs font-medium text-foreground-600">
               Commitment Level <span className="text-red-500">*</span>
             </label>
-            <select
-              required
-              name="commitment_level"
-              defaultValue=""
-              className="w-full outline-none border-b-2 border-violet-600 p-2 bg-transparent text-sm text-foreground"
+            <Select
+              selectedKey={commitmentLevel}
+              onSelectionChange={(key) => setCommitmentLevel(key)}
+              variant="underlined"
+              color="secondary"
+              placeholder="Select commitment"
+              className="w-full"
+              classNames={selectClass}
             >
-              <option value="" disabled>
-                Select commitment
-              </option>
-              {COMMITMENT_LEVELS.map(({ id, label }) => (
-                <option key={id} value={id}>
-                  {label}
-                </option>
-              ))}
-            </select>
+              <Select.Trigger>
+                <Select.Value />
+                <Select.Indicator />
+              </Select.Trigger>
+              <Select.Popover>
+                <ListBox>
+                  {COMMITMENT_LEVELS.map(({ id, label }) => (
+                    <ListBox.Item key={id} id={id} textValue={label}>
+                      {label}
+                    </ListBox.Item>
+                  ))}
+                </ListBox>
+              </Select.Popover>
+            </Select>
           </div>
 
           <div className="flex flex-col gap-1.5">
@@ -214,7 +243,6 @@ export const AddOpportunity = ({ user, startup }) => {
               required
               name="deadline"
               type="date"
-              // prevent past dates
               min={new Date().toISOString().split("T")[0]}
               className="w-full outline-none border-b-2 border-violet-600 p-2 bg-transparent text-sm text-foreground"
             />

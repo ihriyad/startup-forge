@@ -38,7 +38,7 @@ export const FounderOverview = ({ user, stats }) => {
       <div className="flex items-start justify-between flex-wrap gap-4">
         <div>
           <h1 className="text-2xl font-semibold text-foreground">
-            Welcome back, {user.name.split(" ")[0]} 👋
+            Welcome back, <span className="text-violet-600">{user.name.split(" ")[0]}</span>
           </h1>
           <p className="text-sm text-foreground-500 mt-1">
             Here is what is happening with your startup today.
@@ -46,10 +46,10 @@ export const FounderOverview = ({ user, stats }) => {
         </div>
         <Link href="/dashboard/founder/add-opportunity">
           <Button
-            className="bg-violet-600 text-white text-sm font-medium"
-            startContent={<FiPlusCircle size={16} />}
+            className="bg-violet-600 text-white text-sm font-medium rounded-md"
+            
           >
-            Add Opportunity
+            <FiPlusCircle size={16} /> Add Opportunity
           </Button>
         </Link>
       </div>

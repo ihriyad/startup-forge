@@ -22,7 +22,7 @@ const ProfileDropdown = ({ user }) => {
       },
     });
   };
-
+console.log(user)
   return (
     <Dropdown placement="bottom-end">
       <Dropdown.Trigger>
@@ -53,7 +53,7 @@ const ProfileDropdown = ({ user }) => {
                 break;
 
               case "profile":
-                router.push("/profile");
+                router.push("/dashboard/profile");
                 break;
 
               case "pricing":
@@ -88,9 +88,7 @@ const ProfileDropdown = ({ user }) => {
             <Label>Profile</Label>
           </Dropdown.Item>
 
-          <Dropdown.Item id="settings">
-            <Label>Settings</Label>
-          </Dropdown.Item>
+         
 
           <Separator />
 

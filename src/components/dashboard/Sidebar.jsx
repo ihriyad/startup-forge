@@ -2,35 +2,97 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Drawer, Button } from "@heroui/react";
+import { Drawer, Button, Avatar } from "@heroui/react";
 import { TbLayoutSidebarLeftCollapse } from "react-icons/tb";
+import React from "react";
 
-const NAV_CONFIG = {
+import {
+  LuLayoutDashboard,
+  LuUsers,
+  LuBuilding2,
+  LuDollarSign,
+  LuUser,
+  LuSquarePlus,
+  LuLayers,
+  LuFileText,
+} from "react-icons/lu";
+
+export const NAV_CONFIG = {
   admin: [
-    { label: "Overview", href: "/dashboard/admin" },
-    { label: "Manage Users", href: "/dashboard/admin/manage-users" },
-    { label: "Manage Startups", href: "/dashboard/admin/manage-startups" },
-    { label: "Transactions", href: "/dashboard/admin/transactions" },
-    { label: "Profile", href: "/dashboard/profile" },
+    {
+      label: "Overview",
+      href: "/dashboard/admin",
+      icon: <LuLayoutDashboard className="w-4 h-4" />,
+    },
+    {
+      label: "Manage Users",
+      href: "/dashboard/admin/manage-users",
+      icon: <LuUsers className="w-4 h-4" />,
+    },
+    {
+      label: "Manage Startups",
+      href: "/dashboard/admin/manage-startups",
+      icon: <LuBuilding2 className="w-4 h-4" />,
+    },
+    {
+      label: "Transactions",
+      href: "/dashboard/admin/transactions",
+      icon: <LuDollarSign className="w-4 h-4" />,
+    },
+    {
+      label: "Profile",
+      href: "/dashboard/profile",
+      icon: <LuUser className="w-4 h-4" />,
+    },
   ],
   founder: [
-    { label: "Overview", href: "/dashboard/founder" },
-    { label: "My Startup", href: "/dashboard/founder/my-startup" },
-    { label: "Add Opportunity", href: "/dashboard/founder/add-opportunity" },
+    {
+      label: "Overview",
+      href: "/dashboard/founder",
+      icon: <LuLayoutDashboard className="w-4 h-4" />,
+    },
+    {
+      label: "My Startup",
+      href: "/dashboard/founder/my-startup",
+      icon: <LuBuilding2 className="w-4 h-4" />,
+    },
+    {
+      label: "Add Opportunity",
+      href: "/dashboard/founder/add-opportunity",
+      icon: <LuSquarePlus className="w-4 h-4" />,
+    }, // Fixed here
     {
       label: "Manage Opportunities",
       href: "/dashboard/founder/manage-opportunities",
+      icon: <LuLayers className="w-4 h-4" />,
     },
-    { label: "Applications", href: "/dashboard/founder/applications" },
-    { label: "Profile", href: "/dashboard/profile" },
+    {
+      label: "Applications",
+      href: "/dashboard/founder/applications",
+      icon: <LuFileText className="w-4 h-4" />,
+    },
+    {
+      label: "Profile",
+      href: "/dashboard/profile",
+      icon: <LuUser className="w-4 h-4" />,
+    },
   ],
   collaborator: [
-    { label: "Overview", href: "/dashboard/collaborator" },
+    {
+      label: "Overview",
+      href: "/dashboard/collaborator",
+      icon: <LuLayoutDashboard className="w-4 h-4" />,
+    },
     {
       label: "My Applications",
       href: "/dashboard/collaborator/my-applications",
+      icon: <LuFileText className="w-4 h-4" />,
     },
-    { label: "Profile", href: "/dashboard/profile" },
+    {
+      label: "Profile",
+      href: "/dashboard/profile",
+      icon: <LuUser className="w-4 h-4" />,
+    },
   ],
 };
 
@@ -41,13 +103,13 @@ const NavLinks = ({ links, pathname, onNavigate }) => (
         key={link.href}
         href={link.href}
         onClick={onNavigate}
-        className={`px-3 py-2 rounded-md text-sm transition-colors ${
+        className={`px-3 py-2 rounded-md text-sm flex items-center gap-2 ${
           pathname === link.href
             ? "bg-violet-600 text-white"
-            : "hover:bg-default-100 text-foreground-600"
+            : "hover:text-violet-700"
         }`}
       >
-        {link.label}
+        {link.icon} {link.label}
       </Link>
     ))}
   </nav>
@@ -62,9 +124,17 @@ export const Sidebar = ({ role, user }) => {
       {/* ── Desktop Sidebar ── */}
       <aside className="hidden md:flex w-64 min-h-screen border-r border-default-100 flex-col p-4 gap-6 sticky top-0">
         {/* User Info */}
-        <div className="flex flex-col gap-1 px-2 pt-2">
-          <p className="text-sm font-semibold">{user.name}</p>
-          <p className="text-xs text-default-400 capitalize">{role}</p>
+        <div className="flex border rounded-md border-violet-600/30 p-1 gap-1 px-2 pt-2">
+          <Avatar>
+            <Avatar.Image alt="Avatar user" src={user?.image} />
+            <Avatar.Fallback>
+              {user?.name?.slice(0, 2).toUpperCase()}
+            </Avatar.Fallback>
+          </Avatar>
+          <div>
+            <p className="text-sm font-semibold">{user.name}</p>
+            <p className="text-xs text-default-400 capitalize">{role}</p>
+          </div>
         </div>
 
         {/* Nav Links */}
@@ -91,11 +161,20 @@ export const Sidebar = ({ role, user }) => {
 
                 <Drawer.Header>
                   <Drawer.Heading>
-                    <div className="flex flex-col gap-0.5">
-                      <p className="text-sm font-semibold">{user.name}</p>
-                      <p className="text-xs text-default-400 capitalize">
-                        {role}
-                      </p>
+                    {/* User Info */}
+                    <div className="flex border rounded-md border-violet-600/30 p-1 gap-1 px-2 pt-2">
+                      <Avatar>
+                        <Avatar.Image alt="Avatar user" src={user?.image} />
+                        <Avatar.Fallback>
+                          {user?.name?.slice(0, 2).toUpperCase()}
+                        </Avatar.Fallback>
+                      </Avatar>
+                      <div>
+                        <p className="text-sm font-semibold">{user.name}</p>
+                        <p className="text-xs text-default-400 capitalize">
+                          {role}
+                        </p>
+                      </div>
                     </div>
                   </Drawer.Heading>
                 </Drawer.Header>
