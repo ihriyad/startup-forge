@@ -1,9 +1,8 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-
-import { getFounderStartup } from "@/lib/api/startups";
 import { AddOpportunity } from "@/components/dashboard/founder/AddOppotunity";
+import { getFounderStartup } from "@/lib/api/founder/startups";
 
 const AddOpportunityPage = async () => {
   const session = await auth.api.getSession({

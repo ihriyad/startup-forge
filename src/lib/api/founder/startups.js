@@ -1,7 +1,8 @@
 'use server'
 
-import { publicFetch, securedFetch } from "../core/server"
-import { getUserSession } from "../core/session"
+
+import { publicFetch, securedFetch } from "@/lib/core/server"
+import { getUserSession } from "@/lib/core/session"
 
 export const getStartups = async()=>{
     return await publicFetch(`/api/startups`)

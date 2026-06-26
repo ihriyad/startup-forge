@@ -2,9 +2,8 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { publicFetch } from "@/lib/core/server";
 import { MyStartup } from "@/components/dashboard/founder/MyStartup";
-import { getFounderStartup } from "@/lib/api/startups";
+import { getFounderStartup } from "@/lib/api/founder/startups";
 
 const MyStartupPage = async () => {
   const session = await auth.api.getSession({

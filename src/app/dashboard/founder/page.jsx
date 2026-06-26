@@ -1,9 +1,8 @@
-// app/dashboard/founder/page.jsx
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { FounderOverview } from "@/components/dashboard/founder/FounderOverview";
-import { getFounderStats } from "@/lib/api/startups";
+import { getFounderStats } from "@/lib/api/founder/startups";
 
 const FounderOverviewPage = async () => {
   const session = await auth.api.getSession({
