@@ -22,7 +22,7 @@ const ProfileDropdown = ({ user }) => {
       },
     });
   };
-console.log(user)
+  console.log(user);
   return (
     <Dropdown placement="bottom-end">
       <Dropdown.Trigger>
@@ -67,8 +67,10 @@ console.log(user)
           }}
         >
           <Dropdown.Item id="user-info" isReadOnly>
-            <Label>{user?.name}</Label>
-            <Description>{user?.email}</Description>
+            <div className="flex flex-col gap-2">
+              <Label>{user?.name}</Label>
+              <Description>{user?.email}</Description>
+            </div>
           </Dropdown.Item>
 
           <Separator />
@@ -87,8 +89,6 @@ console.log(user)
           <Dropdown.Item id="profile">
             <Label>Profile</Label>
           </Dropdown.Item>
-
-         
 
           <Separator />
 
