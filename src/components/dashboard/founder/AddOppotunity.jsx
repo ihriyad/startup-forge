@@ -8,21 +8,22 @@ import { FiPlusCircle } from "react-icons/fi";
 import { createOpportunity } from "@/lib/actions/founder/opportunities";
 
 const WORK_TYPES = [
-  { id: "remote",  label: "Remote"  },
+  { id: "remote", label: "Remote" },
   { id: "on-site", label: "On-Site" },
-  { id: "hybrid",  label: "Hybrid"  },
+  { id: "hybrid", label: "Hybrid" },
 ];
 
 const COMMITMENT_LEVELS = [
-  { id: "full-time",  label: "Full-Time"  },
-  { id: "part-time",  label: "Part-Time"  },
-  { id: "contract",   label: "Contract"   },
+  { id: "full-time", label: "Full-Time" },
+  { id: "part-time", label: "Part-Time" },
+  { id: "contract", label: "Contract" },
   { id: "internship", label: "Internship" },
 ];
 
 const selectClass = {
-  trigger: "border-b-2 border-violet-600 py-2 px-0 bg-transparent after:bg-violet-600",
-  value:   "text-sm text-foreground pl-2",
+  trigger:
+    "border-b-2 border-violet-600 py-2 px-0 bg-transparent after:bg-violet-600",
+  value: "text-sm text-foreground pl-2",
 };
 
 const SkillsInput = ({ skills, setSkills }) => {
@@ -81,12 +82,12 @@ const SkillsInput = ({ skills, setSkills }) => {
 };
 
 export const AddOpportunity = ({ user, startup }) => {
-  const router  = useRouter();
+  const router = useRouter();
   const formRef = useRef(null);
 
-  const [isSubmitting,    setIsSubmitting]    = useState(false);
-  const [skills,          setSkills]          = useState([]);
-  const [workType,        setWorkType]        = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [skills, setSkills] = useState([]);
+  const [workType, setWorkType] = useState("");
   const [commitmentLevel, setCommitmentLevel] = useState("");
 
   const handleReset = () => {
@@ -117,16 +118,17 @@ export const AddOpportunity = ({ user, startup }) => {
     const formData = new FormData(e.target);
 
     const payload = {
-      startup_id:       startup._id,
-      startup_name:     startup.startup_name,
-      role_title:       formData.get("role_title"),
-      required_skills:  skills,
-      work_type:        workType,
+      startup_id: startup._id,
+      startup_name: startup.startup_name,
+      industry: startup.industry,
+      role_title: formData.get("role_title"),
+      required_skills: skills,
+      work_type: workType,
       commitment_level: commitmentLevel,
-      deadline:         formData.get("deadline"),
-      founder_email:    user.email,
-      status:           "open",
-      createdAt:        new Date(),
+      deadline: formData.get("deadline"),
+      founder_email: user.email,
+      status: "open",
+      createdAt: new Date(),
     };
 
     try {
@@ -274,7 +276,6 @@ export const AddOpportunity = ({ user, startup }) => {
             type="submit"
             disabled={isSubmitting}
             className="bg-violet-600 text-white text-sm font-medium px-6 rounded-md"
-            
           >
             {isSubmitting ? (
               <div className="flex items-center gap-2">
@@ -282,7 +283,11 @@ export const AddOpportunity = ({ user, startup }) => {
                 <span>Posting...</span>
               </div>
             ) : (
-              <p className="flex gap-2"> <FiPlusCircle size={15} />Post Opportunity</p>
+              <p className="flex gap-2">
+                {" "}
+                <FiPlusCircle size={15} />
+                Post Opportunity
+              </p>
             )}
           </Button>
         </div>
