@@ -124,17 +124,46 @@ export const Sidebar = ({ role, user }) => {
       {/* ── Desktop Sidebar ── */}
       <aside className="hidden md:flex w-64 min-h-screen border-r border-default-100 flex-col p-4 gap-6 sticky top-0">
         {/* User Info */}
-        <div className="flex border rounded-md border-violet-600/30 p-1 gap-1 px-2 pt-2">
-          <Avatar>
-            <Avatar.Image alt="Avatar user" src={user?.image} />
-            <Avatar.Fallback>
-              {user?.name?.slice(0, 2).toUpperCase()}
-            </Avatar.Fallback>
-          </Avatar>
-          <div>
-            <p className="text-sm font-semibold">{user.name}</p>
-            <p className="text-xs text-default-400 capitalize">{role}</p>
+        <div className="flex flex-col border-b rounded-none border-default-100 py-3 gap-3 px-2 ">
+          <div className="flex gap-3">
+            <Avatar>
+              <Avatar.Image alt="user avatar" src={user?.image} />
+              <Avatar.Fallback>
+                {user?.name?.slice(0, 2).toUpperCase()}
+              </Avatar.Fallback>
+            </Avatar>
+            <div>
+              <p className="text-sm font-semibold">{user.name}</p>
+              <p className="text-xs text-default-400 capitalize">{role}</p>
+            </div>
           </div>
+          {user?.role === "founder" ? (
+            user?.plan === "premium" ? (
+              // Premium badge
+              <span className="relative w-2/3 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold overflow-hidden bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-amber-900 shadow-sm">
+                {/* shimmer sweep */}
+                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent animate-[shimmer_2s_infinite] bg-[length:200%_100%]" />
+                {/* star icon */}
+                <span className="relative text-amber-700 text-[10px]">★</span>
+                <span className="relative">Premium</span>
+              </span>
+            ) : (
+              // Free badge — subtle violet pulse
+              <span className="relative w-2/3 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-300">
+                <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse shrink-0" />
+                Free
+              </span>
+            )
+          ) : user?.role === "admin" ? (
+            // Admin badge — solid dark with ping dot
+            <span className="relative w-2/3 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-800 dark:bg-slate-700 text-slate-100 shadow-sm">
+              <span className="relative flex h-1.5 w-1.5 shrink-0">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-slate-300" />
+              </span>
+              Admin
+            </span>
+          ) : null}
         </div>
 
         {/* Nav Links */}

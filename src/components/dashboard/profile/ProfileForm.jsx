@@ -120,9 +120,9 @@ export const ProfileForm = ({ initialUser }) => {
   };
 // console.log(user)
   return (
-    <div className="max-w-[750px] mx-auto my-12 px-4 w-full">
+    <div className="mx-auto my-12 px-4 w-full">
       <div className="mb-8 text-left">
-        <h1 className="text-3xl font-bold tracking-tight text-foreground">
+        <h1 className="text-3xl font-medium tracking-tight text-foreground">
           Account Settings
         </h1>
         <p className="text-sm text-default-500 mt-1">

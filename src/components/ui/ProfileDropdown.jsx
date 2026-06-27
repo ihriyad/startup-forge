@@ -33,13 +33,6 @@ const ProfileDropdown = ({ user }) => {
               {user?.name?.slice(0, 2).toUpperCase()}
             </Avatar.Fallback>
           </Avatar>
-          <Badge
-            color={user?.plan === "premium" ? "warning" : "default"}
-            variant="flat"
-            size="sm"
-          >
-            {user?.plan === "premium" ? "Premium" : "Free"}
-          </Badge>
         </Badge.Anchor>
       </Dropdown.Trigger>
 
@@ -67,16 +60,56 @@ const ProfileDropdown = ({ user }) => {
           }}
         >
           <Dropdown.Item id="user-info" isReadOnly>
-            <div className="flex flex-col gap-2">
-              <Label>{user?.name}</Label>
-              <Description>{user?.email}</Description>
+            <div className="flex items-center gap-4">
+              <div className="flex flex-col gap-2">
+                <Label>{user?.name}</Label>
+                <Description>{user?.email}</Description>
+              </div>
+              {/* {user?.role === "founder" ? (
+                <span className={user?.plan === "premium" ? "" : ""}>
+                  {user?.plan === "premium" ? "Premium" : "Free"}
+                </span>
+              ) : user?.role === "admin" ? (
+                <span className="">Admin</span>
+              ) : (
+                ""
+              )} */}
+              {user?.role === "founder" ? (
+                user?.plan === "premium" ? (
+                  // Premium badge 
+                  <span className="relative inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold overflow-hidden bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-amber-900 shadow-sm">
+                    {/* shimmer sweep */}
+                    <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent animate-[shimmer_2s_infinite] bg-[length:200%_100%]" />
+                    {/* star icon */}
+                    <span className="relative text-amber-700 text-[10px]">
+                      ★
+                    </span>
+                    <span className="relative">Premium</span>
+                  </span>
+                ) : (
+                  // Free badge — subtle violet pulse
+                  <span className="relative inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-300">
+                    <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse shrink-0" />
+                    Free
+                  </span>
+                )
+              ) : user?.role === "admin" ? (
+                // Admin badge — solid dark with ping dot
+                <span className="relative inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-800 dark:bg-slate-700 text-slate-100 shadow-sm">
+                  <span className="relative flex h-1.5 w-1.5 shrink-0">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-400 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-slate-300" />
+                  </span>
+                  Admin
+                </span>
+              ) : null}
             </div>
           </Dropdown.Item>
 
           <Separator />
-          {user?.plan === "free" ? (
+          {user?.role === "founder" && user?.plan === "free" ? (
             <Dropdown.Item id="pricing">
-              <Label className="text-violet-600  ">Upgrade</Label>
+              <Label className="text-violet-600">Upgrade</Label>
             </Dropdown.Item>
           ) : (
             <></>

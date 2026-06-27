@@ -131,8 +131,8 @@ export const ManageUsers = ({ users: initialUsers }) => {
                         }
                         className={
                           `${user.isBlocked
-                            ? 'text-violet-600'
-                            : ""} cursor-pointer` 
+                            ? 'hover:text-success'
+                            : "hover:text-danger"} cursor-pointer` 
                         }
                       >
                         {user.role==="admin"?<></>:<>{user.isBlocked ? "Unblock" : "Block"}</>}
