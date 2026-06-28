@@ -27,12 +27,13 @@ const ProfileDropdown = ({ user }) => {
     <Dropdown placement="bottom-end">
       <Dropdown.Trigger>
         <Badge.Anchor>
-          <Avatar>
+          <Avatar size="sm">
             <Avatar.Image alt="User Avatar" src={user.image} />
             <Avatar.Fallback>
               {user?.name?.slice(0, 2).toUpperCase()}
             </Avatar.Fallback>
           </Avatar>
+  
         </Badge.Anchor>
       </Dropdown.Trigger>
 
@@ -81,16 +82,14 @@ const ProfileDropdown = ({ user }) => {
                     {/* shimmer sweep */}
                     <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent animate-[shimmer_2s_infinite] bg-[length:200%_100%]" />
                     {/* star icon */}
-                    <span className="relative text-amber-700 text-[10px]">
-                      ★
-                    </span>
-                    <span className="relative">Premium</span>
+                    
+                    <span className="relative">Founder</span>
                   </span>
                 ) : (
                   // Free badge — subtle violet pulse
                   <span className="relative inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-300">
-                    <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse shrink-0" />
-                    Free
+                    
+                    Founder
                   </span>
                 )
               ) : user?.role === "admin" ? (
@@ -102,7 +101,7 @@ const ProfileDropdown = ({ user }) => {
                   </span>
                   Admin
                 </span>
-              ) : null}
+              ) : <span className="text-sm">Collaborator</span>}
             </div>
           </Dropdown.Item>
 

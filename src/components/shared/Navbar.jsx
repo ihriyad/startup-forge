@@ -9,6 +9,13 @@ import Image from "next/image";
 import { authClient } from "@/lib/auth-client";
 import ProfileDropdown from "../ui/ProfileDropdown";
 
+import { Instrument_Sans } from "next/font/google";
+
+const instrument = Instrument_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
 export const Navbar = () => {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -70,7 +77,7 @@ export const Navbar = () => {
   );
 
   return (
-    <nav className="w-full relative z-50">
+    <nav className={`${instrument.className} w-full relative z-50`}>
       <div className="px-6 h-20 flex items-center justify-between">
         {/* Logo */}
         <Link

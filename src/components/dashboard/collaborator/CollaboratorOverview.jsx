@@ -37,7 +37,7 @@ export const CollaboratorOverview = ({ user, applications }) => {
       <div className="flex items-start justify-between flex-wrap gap-4">
         <div>
           <h1 className="text-2xl font-semibold text-foreground">
-            Welcome back, {user.name.split(" ")[0]} 👋
+            Welcome back, {user.name}
           </h1>
           <p className="text-sm text-foreground-500 mt-1">
             Track your applications and discover new opportunities.

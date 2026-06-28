@@ -1,13 +1,23 @@
-import { Navbar } from '@/components/shared/Navbar';
-import React from 'react';
+import { Navbar } from "@/components/shared/Navbar";
+import React from "react";
+import { DM_Sans } from "next/font/google";
 
-const StartupsPageLayout = ({children}) => {
-    return (
-        <div>
-            <Navbar></Navbar>
-            {children}
-        </div>
-    );
+export const metadata = {
+  title: "Startups | StartupForge",
+  description: "StartupForge Startups. Browse all registered startups now!",
+};
+
+const dm_sans = DM_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+});
+const StartupsPageLayout = ({ children }) => {
+  return (
+    <>
+      <Navbar></Navbar>
+      <div className={dm_sans.className}>{children}</div>
+    </>
+  );
 };
 
 export default StartupsPageLayout;
