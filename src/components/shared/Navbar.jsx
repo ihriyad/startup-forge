@@ -7,9 +7,9 @@ import { Separator } from "@heroui/react";
 import { FiMenu, FiX } from "react-icons/fi";
 import Image from "next/image";
 import { authClient } from "@/lib/auth-client";
-import ProfileDropdown from "../ui/ProfileDropdown";
 
 import { Instrument_Sans } from "next/font/google";
+import ProfileDropdown from "./ProfileDropdown";
 
 const instrument = Instrument_Sans({
   subsets: ["latin"],
