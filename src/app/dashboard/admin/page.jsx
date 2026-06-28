@@ -1,8 +1,8 @@
 import { AdminOverview } from "@/components/dashboard/admin/AdminOverview";
-import { getAllUsers } from "@/lib/api/users";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { publicFetch, securedFetch } from "@/lib/core/server";
 
 const AdminOverviewPage = async () => {
   const session = await auth.api.getSession({
@@ -11,8 +11,21 @@ const AdminOverviewPage = async () => {
 
   if (!session || session.user.role !== "admin") redirect("/dashboard");
 
-  const users = await getAllUsers();
-  return <AdminOverview users={users}></AdminOverview>;
+  const [users, startups, opportunities, payments] = await Promise.all([
+    publicFetch("/api/users"),
+    publicFetch("/api/admin/startups"),
+    publicFetch("/api/opportunities/all"),
+    securedFetch("/api/payments"),
+  ]);
+
+  return (
+    <AdminOverview
+      users={users        ?? []}
+      startups={startups  ?? []}
+      opportunities={opportunities ?? []}
+      payments={payments  ?? []}
+    />
+  );
 };
 
 export default AdminOverviewPage;
