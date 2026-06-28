@@ -1,4 +1,3 @@
-// components/opportunities/BrowseOpportunities.jsx
 "use client";
 
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
@@ -158,7 +157,7 @@ const Pagination = ({ currentPage, total, limit, onPageChange }) => {
   );
 };
 
-// ── Main Component ───────────────────────────────────────────────────────────
+
 export const BrowseOpportunities = ({
   opportunities,
   total,

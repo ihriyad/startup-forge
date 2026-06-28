@@ -10,7 +10,6 @@ export const ApplyModal = ({ opportunity, currentUser }) => {
   const [motivation, setMotivation] = useState("");
   const [portfolio, setPortfolio] = useState("");
 
-  
   const handleSubmit = async () => {
     if (!motivation.trim()) {
       toast.error("Please write a motivation message.");
@@ -94,26 +93,25 @@ export const ApplyModal = ({ opportunity, currentUser }) => {
               </div>
             </Modal.Body>
 
-            <Modal.Footer className="flex justify-end gap-3">
-              <Modal.CloseTrigger asChild>
-                <Button variant="flat" size="sm" className="text-sm">
-                  Cancel
-                </Button>
-              </Modal.CloseTrigger>
+            <Modal.Footer className="flex justify-end gap-3 px-3">
+              
+              <Button
+                variant="flat"
+                size="sm"
+                slot={"close"}
+                className="text-sm bg-default-100 hover:bg-default-200 text-default-700"
+              >
+                Cancel
+              </Button>
+
+              {/* Submit Button */}
               <Button
                 size="sm"
                 isLoading={isSubmitting}
-                onClick={handleSubmit}
+                onPress={handleSubmit}
                 className="bg-violet-600 text-white text-sm font-medium px-5"
               >
-                {isSubmitting ? (
-                  <div className="flex items-center gap-2">
-                    <Spinner size="sm" color="white" />
-                    <span>Submitting...</span>
-                  </div>
-                ) : (
-                  "Submit Application"
-                )}
+                {isSubmitting ? "Submitting..." : "Submit Application"}
               </Button>
             </Modal.Footer>
           </Modal.Dialog>

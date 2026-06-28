@@ -62,7 +62,7 @@ export const SuccessStories = () => {
 
   return (
     <section className="w-full bg-background text-foreground py-20 px-6 border-t border-divider transition-colors duration-300">
-      <div className="max-w-[1280px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <div className="max-w-[1120px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         {/* Left Side: Context Header / Title Column */}
         <div className="lg:col-span-4 flex flex-col gap-4 text-left">
           <div className="inline-flex items-center gap-2 text-violet-600 font-bold text-xs uppercase tracking-widest bg-violet-600/10 dark:bg-violet-600/20 px-3 py-1.5 rounded-full w-fit">
