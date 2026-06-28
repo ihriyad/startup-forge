@@ -12,9 +12,9 @@ import {
 } from "react-icons/fi";
 import { ApplyModal } from "../opportunities/ApplyModal";
 
-
 const OpportunityCard = ({ opportunity, currentUser, startup }) => {
   const isFounder = currentUser?.role === "founder";
+  const isAdmin = currentUser?.role === "admin";
   const isOwnStartup = currentUser?.email === startup.founder_email;
   const isLoggedIn = !!currentUser;
 
@@ -74,6 +74,8 @@ const OpportunityCard = ({ opportunity, currentUser, startup }) => {
               ? "This is your opportunity."
               : "Founders cannot apply for opportunities."}
           </p>
+        ) : isAdmin ? (
+          <p className="text-sm">Admin can&lsquo;t Apply for Opportunities.</p>
         ) : (
           <ApplyModal opportunity={opportunity} currentUser={currentUser} />
         )}

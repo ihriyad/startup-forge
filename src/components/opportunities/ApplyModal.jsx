@@ -10,6 +10,7 @@ export const ApplyModal = ({ opportunity, currentUser }) => {
   const [motivation, setMotivation] = useState("");
   const [portfolio, setPortfolio] = useState("");
 
+  
   const handleSubmit = async () => {
     if (!motivation.trim()) {
       toast.error("Please write a motivation message.");

@@ -7,31 +7,29 @@ import { updateUser } from "@/lib/actions/users";
 
 export const ManageUsers = ({ users: initialUsers }) => {
   const [users, setUsers] = useState(initialUsers);
-  const [actionLoadingId, setActionLoadingId] = useState(null);
 
-  const handleToggleBlock = async (userId, isBlocked) => {
-    console.log(userId, isBlocked);
-    setActionLoadingId(userId);
+  const handleToggleBlock = async (userEmail, isBlocked) => {
     try {
-      await updateUser(userId, { isBlocked: !isBlocked });
-      toast.success(isBlocked ? "User unblocked" : "User blocked");
+      const res = await updateUser(userEmail, { isBlocked: !isBlocked });
 
-      // update local state — no refetch needed
-      setUsers((prev) =>
-        prev.map((u) =>
-          u._id === userId ? { ...u, isBlocked: !isBlocked } : u,
-        ),
-      );
+      if (res.modifiedCount > 0) {
+        toast.success(isBlocked ? "User unblocked" : "User blocked");
+        // update local state — no refetch needed
+        setUsers((prev) =>
+          prev.map((u) =>
+            u.email === userEmail ? { ...u, isBlocked: !isBlocked } : u,
+          ),
+        );
+      } else {
+        toast.error("No changes were made.");
+      }
     } catch (err) {
       toast.error("Action failed. Please try again.");
-    } finally {
-      setActionLoadingId(null);
     }
   };
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Page Header */}
       <div>
         <h1 className="text-2xl font-semibold text-foreground">Manage Users</h1>
         <p className="text-sm text-foreground-500 mt-1">
@@ -40,7 +38,7 @@ export const ManageUsers = ({ users: initialUsers }) => {
       </div>
 
       <Table>
-        <Table.ScrollContainer >
+        <Table.ScrollContainer>
           <Table.Content aria-label="Users table">
             <Table.Header>
               <Table.Column isRowHeader className="w-10">
@@ -56,7 +54,7 @@ export const ManageUsers = ({ users: initialUsers }) => {
 
             <Table.Body emptyContent="No users found.">
               {users.map((user, index) => (
-                <Table.Row key={user._id}>
+                <Table.Row key={user.email}>
                   <Table.Cell>
                     <span className="text-sm text-foreground-400">
                       {index + 1}
@@ -123,21 +121,22 @@ export const ManageUsers = ({ users: initialUsers }) => {
 
                   <Table.Cell>
                     <div className="flex justify-end">
-                      <button
-                        
-                        isLoading={actionLoadingId === user._id}
-                        onClick={() =>
-                          handleToggleBlock(user._id, user.isBlocked)
-                        }
-                        className={
-                          `${user.isBlocked
-                            ? 'hover:text-success'
-                            : "hover:text-danger"} cursor-pointer` 
-                        }
-                      >
-                        {user.role==="admin"?<></>:<>{user.isBlocked ? "Unblock" : "Block"}</>}
-                        
-                      </button>
+                      {user.role === "admin" ? null : (
+                        <Button
+                          variant="flat"
+                          size="sm"
+                          onClick={() =>
+                            handleToggleBlock(user.email, user.isBlocked)
+                          }
+                          className={`rounded-md text-xs ${
+                            user.isBlocked
+                              ? "bg-green-100 text-green-700 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-400"
+                              : "bg-red-100 text-red-600 hover:bg-red-200 dark:bg-red-900/30 dark:text-red-400"
+                          }`}
+                        >
+                          {user.isBlocked ? "Unblock" : "Block"}
+                        </Button>
+                      )}
                     </div>
                   </Table.Cell>
                 </Table.Row>

@@ -20,10 +20,10 @@ const AdminOverviewPage = async () => {
 
   return (
     <AdminOverview
-      users={users        ?? []}
-      startups={startups  ?? []}
+      users={users ?? []}
+      startups={startups ?? []}
       opportunities={opportunities ?? []}
-      payments={payments  ?? []}
+      payments={payments ?? []}
     />
   );
 };

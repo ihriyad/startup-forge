@@ -1,16 +1,37 @@
 "use client";
 
 import {
-  AreaChart, Area, BarChart, Bar,
-  XAxis, YAxis, CartesianGrid, Tooltip,
-  ResponsiveContainer, PieChart, Pie, Cell,
+  AreaChart,
+  Area,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
 } from "recharts";
 import { FiUsers, FiZap, FiBriefcase, FiDollarSign } from "react-icons/fi";
 
-// build monthly data from a list of objects with a date field
 const buildMonthlyData = (items, dateField) => {
-  const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-  const counts  = Array(12).fill(0);
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const counts = Array(12).fill(0);
 
   items.forEach((item) => {
     const date = new Date(item[dateField]);
@@ -26,8 +47,21 @@ const buildMonthlyData = (items, dateField) => {
 };
 
 const buildRevenueData = (payments) => {
-  const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-  const totals  = Array(12).fill(0);
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const totals = Array(12).fill(0);
 
   payments
     .filter((p) => p.payment_status === "paid")
@@ -44,46 +78,45 @@ const buildRevenueData = (payments) => {
 };
 
 export const AdminOverview = ({ users, startups, opportunities, payments }) => {
-  // ── computed stats ──────────────────────────────────────────────────────
   const totalRevenue = payments
     .filter((p) => p.payment_status === "paid")
     .reduce((sum, p) => sum + (p.amount ?? 0), 0);
 
   const stats = [
     {
-      label:  "Total Users",
-      value:  users.length.toLocaleString(),
-      icon:   FiUsers,
+      label: "Total Users",
+      value: users.length.toLocaleString(),
+      icon: FiUsers,
       change: `${users.length} registered`,
     },
     {
-      label:  "Total Startups",
-      value:  startups.length.toLocaleString(),
-      icon:   FiZap,
+      label: "Total Startups",
+      value: startups.length.toLocaleString(),
+      icon: FiZap,
       change: `${startups.filter((s) => s.status === "approved").length} approved`,
     },
     {
-      label:  "Opportunities",
-      value:  opportunities.length.toLocaleString(),
-      icon:   FiBriefcase,
+      label: "Opportunities",
+      value: opportunities.length.toLocaleString(),
+      icon: FiBriefcase,
       change: `${opportunities.filter((o) => o.status === "open").length} open`,
     },
     {
-      label:  "Total Revenue",
-      value:  `$${totalRevenue.toFixed(2)}`,
-      icon:   FiDollarSign,
+      label: "Total Revenue",
+      value: `$${totalRevenue.toFixed(2)}`,
+      icon: FiDollarSign,
       change: `${payments.filter((p) => p.payment_status === "paid").length} payments`,
     },
   ];
 
   // ── chart data ──────────────────────────────────────────────────────────
-  const userMonthly = buildMonthlyData(users,         "createdAt");
-  const oppMonthly  = buildMonthlyData(opportunities, "createdAt");
+  const userMonthly = buildMonthlyData(users, "createdAt");
+  const oppMonthly = buildMonthlyData(opportunities, "createdAt");
 
   // merge user + opportunity monthly into one array for the area chart
   const growthData = userMonthly.map((item, i) => ({
-    month:         item.month,
-    users:         item.count,
+    month: item.month,
+    users: item.count,
     opportunities: oppMonthly[i]?.count ?? 0,
   }));
 
@@ -91,14 +124,14 @@ export const AdminOverview = ({ users, startups, opportunities, payments }) => {
 
   // ── role distribution ───────────────────────────────────────────────────
   const collaborators = users.filter((u) => u.role === "collaborator").length;
-  const founders      = users.filter((u) => u.role === "founder").length;
-  const admins        = users.filter((u) => u.role === "admin").length;
-  const total         = users.length || 1; // avoid divide by zero
+  const founders = users.filter((u) => u.role === "founder").length;
+  const admins = users.filter((u) => u.role === "admin").length;
+  const total = users.length || 1; // avoid divide by zero
 
   const roleData = [
     { name: "Collaborators", value: collaborators, color: "#7c3aed" },
-    { name: "Founders",      value: founders,      color: "#6d28d9" },
-    { name: "Admins",        value: admins,         color: "#c4b5fd" },
+    { name: "Founders", value: founders, color: "#6d28d9" },
+    { name: "Admins", value: admins, color: "#c4b5fd" },
   ];
 
   return (
@@ -144,12 +177,12 @@ export const AdminOverview = ({ users, startups, opportunities, payments }) => {
             <AreaChart data={growthData}>
               <defs>
                 <linearGradient id="usersGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%"  stopColor="#7c3aed" stopOpacity={0.2} />
-                  <stop offset="95%" stopColor="#7c3aed" stopOpacity={0}   />
+                  <stop offset="5%" stopColor="#7c3aed" stopOpacity={0.2} />
+                  <stop offset="95%" stopColor="#7c3aed" stopOpacity={0} />
                 </linearGradient>
                 <linearGradient id="oppsGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%"  stopColor="#c4b5fd" stopOpacity={0.2} />
-                  <stop offset="95%" stopColor="#c4b5fd" stopOpacity={0}   />
+                  <stop offset="5%" stopColor="#c4b5fd" stopOpacity={0.2} />
+                  <stop offset="95%" stopColor="#c4b5fd" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -186,13 +219,8 @@ export const AdminOverview = ({ users, startups, opportunities, payments }) => {
             <BarChart data={revenueData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
               <XAxis dataKey="month" tick={{ fontSize: 11 }} />
-              <YAxis
-                tick={{ fontSize: 11 }}
-                tickFormatter={(v) => `$${v}`}
-              />
-              <Tooltip
-                formatter={(v) => [`$${v.toFixed(2)}`, "Revenue"]}
-              />
+              <YAxis tick={{ fontSize: 11 }} tickFormatter={(v) => `$${v}`} />
+              <Tooltip formatter={(v) => [`$${v.toFixed(2)}`, "Revenue"]} />
               <Bar dataKey="revenue" fill="#7c3aed" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
@@ -211,7 +239,8 @@ export const AdminOverview = ({ users, startups, opportunities, payments }) => {
           <PieChart width={120} height={120}>
             <Pie
               data={roleData}
-              cx={55} cy={55}
+              cx={55}
+              cy={55}
               innerRadius={30}
               outerRadius={52}
               dataKey="value"

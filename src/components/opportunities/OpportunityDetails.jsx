@@ -13,6 +13,7 @@ import { ApplyModal } from "./ApplyModal";
 
 export const OpportunityDetails = ({ opportunity, currentUser }) => {
   const isFounder = currentUser?.role === "founder";
+  const isAdmin = currentUser?.role === "admin";
   const isLoggedIn = !!currentUser;
   const isExpired =
     opportunity.deadline && new Date(opportunity.deadline) < new Date();
@@ -165,6 +166,10 @@ export const OpportunityDetails = ({ opportunity, currentUser }) => {
                   </p>
                 )}
               </div>
+            ) : isAdmin ? (
+              <p className="text-sm">
+                Admin can&lsquo;t Apply for Opportunities.
+              </p>
             ) : (
               <ApplyModal opportunity={opportunity} currentUser={currentUser} />
             )}

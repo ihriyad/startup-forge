@@ -95,7 +95,7 @@ export const ProfileForm = ({ initialUser }) => {
     };
 
     try {
-      const response = await updateUser(user.id, updatedData);
+      const response = await updateUser(user.email, updatedData);
 
       if (response && (response.modifiedCount > 0 || response.acknowledged)) {
         toast.success("Profile updated perfectly!");
