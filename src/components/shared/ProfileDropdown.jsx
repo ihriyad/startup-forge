@@ -26,15 +26,14 @@ const ProfileDropdown = ({ user }) => {
   return (
     <Dropdown placement="bottom-end">
       <Dropdown.Trigger>
-        <Badge.Anchor>
+        <div className="relative border-2 border-violet-600 p-0.5 rounded-full">
           <Avatar size="sm">
             <Avatar.Image alt="User Avatar" src={user.image} />
             <Avatar.Fallback>
               {user?.name?.slice(0, 2).toUpperCase()}
             </Avatar.Fallback>
           </Avatar>
-  
-        </Badge.Anchor>
+        </div>
       </Dropdown.Trigger>
 
       <Dropdown.Popover>
@@ -77,18 +76,17 @@ const ProfileDropdown = ({ user }) => {
               )} */}
               {user?.role === "founder" ? (
                 user?.plan === "premium" ? (
-                  // Premium badge 
+                  // Premium badge
                   <span className="relative inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold overflow-hidden bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-amber-900 shadow-sm">
                     {/* shimmer sweep */}
                     <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent animate-[shimmer_2s_infinite] bg-[length:200%_100%]" />
                     {/* star icon */}
-                    
+
                     <span className="relative">Founder</span>
                   </span>
                 ) : (
                   // Free badge — subtle violet pulse
                   <span className="relative inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-300">
-                    
                     Founder
                   </span>
                 )
@@ -101,7 +99,9 @@ const ProfileDropdown = ({ user }) => {
                   </span>
                   Admin
                 </span>
-              ) : <span className="text-sm">Collaborator</span>}
+              ) : (
+                <span className="text-sm">Collaborator</span>
+              )}
             </div>
           </Dropdown.Item>
 

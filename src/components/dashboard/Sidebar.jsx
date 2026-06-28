@@ -126,15 +126,15 @@ export const Sidebar = ({ role, user }) => {
         {/* User Info */}
         <div className="flex  border-b rounded-none border-default-100 py-3 px-2 ">
           <div className="flex gap-3 items-center">
-            <Badge.Anchor>
+            <div className="relative border-2 border-violet-600 p-0.5 rounded-full">
               <Avatar size="md">
                 <Avatar.Image alt="user avatar" src={user?.image} />
                 <Avatar.Fallback>
                   {user?.name?.slice(0, 2).toUpperCase()}
                 </Avatar.Fallback>
               </Avatar>
-              <Badge color="success" placement="bottom-right" size="sm" />
-            </Badge.Anchor>
+            </div>
+
             <div className="space-y-2">
               <p className="text-sm font-semibold">{user.name}</p>
               <p className="text-xs text-default-400 capitalize">

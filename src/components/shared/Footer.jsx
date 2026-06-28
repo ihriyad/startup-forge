@@ -29,8 +29,8 @@ const FOOTER_LINKS = [
 
 const CONTACT_INFO = [
   { icon: FiMail, text: "support@startupforge.com", href: "mailto:support@startupforge.com" },
-  { icon: FiPhone, text: "+1 (555) 019-2834", href: null },
-  { icon: FiMapPin, text: "Silicon Valley, CA, USA", href: null },
+  { icon: FiPhone, text: "+880 19 36730675", href: null },
+  { icon: FiMapPin, text: "Pabna, Dhaka, Bangladesh", href: null },
 ];
 
 const SOCIAL_LINKS = [
@@ -44,7 +44,7 @@ export const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="w-full bg-[#0f172a] text-slate-300 pt-16 pb-8 border-t border-slate-800">
+    <footer className="w-full  pt-16 pb-8 border-t border-slate-800">
       <div className="max-w-[1280px] mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
         
         {/* Column 1: Custom Branding Block */}
@@ -59,11 +59,11 @@ export const Footer = () => {
               height={60}
               alt="Logo"
             />
-            <span className="text-white">
+            <span className="">
               Startup<span className="text-violet-600">Forge</span>®
             </span>
           </Link>
-          <p className="text-sm text-slate-400 leading-relaxed max-w-xs">
+          <p className="text-sm leading-relaxed max-w-xs">
             We bridge the gap between ambitious startup founders and top-tier collaborative talent globally. Build your dream team today.
           </p>
         </div>
@@ -71,7 +71,7 @@ export const Footer = () => {
         {/* Columns 2 & 3: Dynamic Nav Render via Array Map */}
         {FOOTER_LINKS.map((section) => (
           <div key={section.title} className="flex flex-col gap-4">
-            <h4 className="text-xs font-bold tracking-wider uppercase text-slate-400">
+            <h4 className="text-xs font-bold tracking-wider uppercase text-violet-600">
               {section.title}
             </h4>
             <ul className="flex flex-col gap-2.5 text-sm">
@@ -88,17 +88,17 @@ export const Footer = () => {
 
         {/* Column 4: Contact Information Array Map */}
         <div className="flex flex-col gap-4">
-          <h4 className="text-xs font-bold tracking-wider uppercase text-slate-400">
+          <h4 className="text-xs font-bold tracking-wider uppercase text-violet-600">
             Contact Info
           </h4>
-          <ul className="flex flex-col gap-3 text-sm text-slate-400">
+          <ul className="flex flex-col gap-3 text-sm ">
             {CONTACT_INFO.map((item, index) => {
               const Icon = item.icon;
               return (
                 <li key={index} className="flex items-center gap-2">
                   <Icon className="text-violet-600 flex-shrink-0" />
                   {item.href ? (
-                    <a href={item.href} className="hover:text-white transition-colors">
+                    <a href={item.href} className="hover:text-violet-600 transition-colors">
                       {item.text}
                     </a>
                   ) : (
@@ -112,7 +112,7 @@ export const Footer = () => {
 
         {/* Column 5: Social Channels Array Map */}
         <div className="flex flex-col gap-4">
-          <h4 className="text-xs font-bold tracking-wider uppercase text-slate-400">
+          <h4 className="text-xs font-bold tracking-wider uppercase text-violet-600">
             Social Networks
           </h4>
           <ul className="flex flex-col gap-2.5 text-sm">
@@ -126,7 +126,7 @@ export const Footer = () => {
                     rel="noreferrer"
                     className="flex items-center gap-2 hover:text-violet-600 transition-colors"
                   >
-                    <SocialIcon className="text-slate-400 text-base" /> {social.label}
+                    <SocialIcon className="text-violet-600 text-base" /> {social.label}
                   </a>
                 </li>
               );
