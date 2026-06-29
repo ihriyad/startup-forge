@@ -12,6 +12,7 @@ import {
   FiChevronRight,
 } from "react-icons/fi";
 import { OpportunityCard } from "./OpportunityCard";
+import { ScrollReveal } from "../ui/ScrollReveal";
 
 const WORK_TYPES = [
   { id: "remote", label: "Remote" },
@@ -157,7 +158,6 @@ const Pagination = ({ currentPage, total, limit, onPageChange }) => {
   );
 };
 
-
 export const BrowseOpportunities = ({
   opportunities,
   total,
@@ -288,12 +288,14 @@ export const BrowseOpportunities = ({
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-              {opportunities.map((opp) => (
-                <OpportunityCard
-                  key={opp._id}
-                  opportunity={opp}
-                  currentUser={currentUser}
-                />
+              {opportunities.map((opp, i) => (
+                <ScrollReveal key={opp._id} delay={i * 60}>
+                  <OpportunityCard
+                    key={opp._id}
+                    opportunity={opp}
+                    currentUser={currentUser}
+                  />
+                </ScrollReveal>
               ))}
             </div>
           )}

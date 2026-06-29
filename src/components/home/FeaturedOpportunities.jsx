@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { Card } from "@heroui/react";
 import { FiBriefcase, FiClock, FiTag, FiArrowRight } from "react-icons/fi";
+import { ScrollReveal } from "../ui/ScrollReveal";
 
 export const FeaturedOpportunities = ({ opportunities }) => {
   return (
@@ -11,6 +12,8 @@ export const FeaturedOpportunities = ({ opportunities }) => {
       
       {/* Header Block Section */}
       <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
+        <ScrollReveal>
+
         <div>
           <h2 className="text-2xl font-bold text-foreground tracking-tight">
             Featured Opportunities
@@ -19,6 +22,7 @@ export const FeaturedOpportunities = ({ opportunities }) => {
             Latest open roles across top startups
           </p>
         </div>
+        </ScrollReveal>
         <Link
           href="/opportunities"
           className="flex items-center gap-1.5 text-xs uppercase tracking-wider text-violet-600 dark:text-violet-400 font-bold hover:text-violet-700 transition-colors"
@@ -30,10 +34,12 @@ export const FeaturedOpportunities = ({ opportunities }) => {
 
       {/* Main Multi-device Grid Layout Frame */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {opportunities.map((opp) => {
+        {opportunities.map((opp,i) => {
           const isExpired = opp.deadline && new Date(opp.deadline) < new Date();
-
+          
           return (
+            <ScrollReveal key={opp._id} delay={i * 80}>
+            
             <Link
               key={opp._id}
               href={`/opportunities/${opp._id}`}
@@ -123,7 +129,9 @@ export const FeaturedOpportunities = ({ opportunities }) => {
 
               </Card>
             </Link>
+          </ScrollReveal>
           );
+
         })}
       </div>
     </section>

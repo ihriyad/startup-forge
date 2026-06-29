@@ -12,3 +12,35 @@
   0%   { background-position: 200% center; }
   100% { background-position: -200% center; }
 }
+
+/* globals.css — add these */
+
+/* base state — hidden before scroll */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+/* triggered state */
+.scroll-reveal.animate-in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* staggered children — wrap parent in scroll-reveal-group */
+.scroll-reveal-group .scroll-reveal:nth-child(1) { transition-delay: 0ms;   }
+.scroll-reveal-group .scroll-reveal:nth-child(2) { transition-delay: 80ms;  }
+.scroll-reveal-group .scroll-reveal:nth-child(3) { transition-delay: 160ms; }
+.scroll-reveal-group .scroll-reveal:nth-child(4) { transition-delay: 240ms; }
+.scroll-reveal-group .scroll-reveal:nth-child(5) { transition-delay: 320ms; }
+.scroll-reveal-group .scroll-reveal:nth-child(6) { transition-delay: 400ms; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.5s ease forwards;
+}

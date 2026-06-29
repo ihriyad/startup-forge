@@ -10,6 +10,7 @@ import {
   LuArrowRight,
 } from "react-icons/lu";
 import Link from "next/link";
+import { ScrollReveal } from "../ui/ScrollReveal";
 
 const PROPOSITIONS = [
   {
@@ -43,6 +44,7 @@ export const WhyJoin = () => {
     <section className="w-full bg-background text-foreground py-24 px-6 border-t border-divider transition-colors duration-300">
       <div className="max-w-[1120px] mx-auto flex flex-col gap-16">
         {/* Section Heading Row */}
+          <ScrollReveal>
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 max-w-5xl">
           <div className="flex flex-col gap-4 text-left">
             <div className="inline-flex items-center gap-2 text-violet-600 font-bold text-xs uppercase tracking-widest bg-violet-600/10 dark:bg-violet-600/20 px-3 py-1.5 rounded-full w-fit">
@@ -59,10 +61,13 @@ export const WhyJoin = () => {
             technical talent and agile founders.
           </p>
         </div>
+          </ScrollReveal>
 
         {/* 2x2 Feature Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {PROPOSITIONS.map((prop, index) => (
+             <ScrollReveal key={index} delay={index * 80}>
+           
             <Card
               key={index}
               className="bg-content1 dark:bg-content1 border border-divider hover:border-violet-500/40 shadow-sm hover:shadow-md transition-all duration-300 p-6 md:p-8 group rounded-2xl"
@@ -86,10 +91,13 @@ export const WhyJoin = () => {
                 </div>
               </Card.Content>
             </Card>
+          </ScrollReveal>
           ))}
         </div>
 
         {/* Bottom Context Call to Action Block */}
+          <ScrollReveal>
+          
         <div className="bg-gradient-to-r from-violet-600/10 via-transparent to-transparent border border-divider rounded-2xl p-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mt-4">
           <div className="flex flex-col gap-1 max-w-2xl text-left">
             <h4 className="text-lg font-bold text-foreground">
@@ -111,6 +119,7 @@ export const WhyJoin = () => {
             Explore Opportunities
           </Button></Link>
         </div>
+          </ScrollReveal>
       </div>
     </section>
   );

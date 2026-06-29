@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Card } from "@heroui/react";
 import { FiBriefcase, FiSearch } from "react-icons/fi";
+import { ScrollReveal } from "../ui/ScrollReveal";
 
 const INDUSTRIES = [
   "all",
@@ -110,7 +111,7 @@ export const BrowseStartups = ({ startups, currentUser }) => {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-12 flex flex-col gap-6">
-       {/* Search Input Block - Centered */}
+      {/* Search Input Block - Centered */}
       <div className="flex justify-center w-full">
         <div className="relative max-w-xl w-full">
           <FiSearch
@@ -128,14 +129,11 @@ export const BrowseStartups = ({ startups, currentUser }) => {
       </div>
       {/* Header Container Area */}
       <div className="flex flex-col text-center items-center justify-center">
-       
         <p className="text-sm text-default-400  max-w-md">
           Discover {startups.length} startup{startups.length !== 1 ? "s" : ""}{" "}
           looking for talented collaborators.
         </p>
       </div>
-
-     
 
       {/* Fixed: Responsive wrapped pill layout instead of a breaking horizontal bar */}
       <div className="w-full flex justify-center bg-gradient-to-r from-violet-600/10 via-transparent to-transparent py-3 rounded-md">
@@ -166,12 +164,10 @@ export const BrowseStartups = ({ startups, currentUser }) => {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-2">
-          {filtered.map((startup) => (
-            <StartupCard
-              key={startup._id}
-              startup={startup}
-              currentUser={currentUser}
-            />
+          {filtered.map((startup,i) => (
+            <ScrollReveal key={startup._id} delay={i * 60}>
+              <StartupCard startup={startup} currentUser={currentUser} />
+            </ScrollReveal>
           ))}
         </div>
       )}

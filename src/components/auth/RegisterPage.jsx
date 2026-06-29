@@ -67,9 +67,9 @@ export const RegisterPage = () => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-64px)] w-full flex items-center justify-center bg-background ">
+    <div className="min-h-dvh w-full flex items-center justify-center bg-background ">
       <div className="col-span-1 lg:col-span-5 flex items-center justify-center p-8 md:p-16 ">
-        <div className="w-full max-w-[420px] flex flex-col gap-5">
+        <div className="w-full max-w-105 flex flex-col gap-5 animate-fade-up">
           {/* Custom Logo Header Frame */}
           <div className="flex flex-col gap-1 text-center items-center">
             <Link

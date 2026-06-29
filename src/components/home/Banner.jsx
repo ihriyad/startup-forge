@@ -20,6 +20,7 @@ import { useRouter } from "next/navigation";
 
 import "swiper/css";
 import "swiper/css/navigation";
+import { ScrollReveal } from "../ui/ScrollReveal";
 
 const INDUSTRIES = [
   { id: "all", label: "All Industries" },
@@ -55,35 +56,37 @@ export const Banner = ({ startups, currentUser }) => {
     <section className="relative w-full pt-8 md:pt-12 overflow-hidden">
       {/* ── Header ── */}
       <div className="max-w-[1100px] mx-auto px-6 mb-8 text-left">
-        <div className="inline-flex items-center gap-2 bg-violet-100 dark:bg-violet-900/30 text-violet-600 text-xs font-medium px-3 py-1.5 rounded-full mb-4">
-          <FiZap size={12} />
-          {startups.length} startups actively building
-        </div>
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight text-foreground mb-3 leading-tight">
-          Join a <span className="text-violet-600">startup</span>
-        </h1>
-        <p className="text-xl md:text-2xl text-foreground-400 font-normal max-w-lg">
-          Discover{" "}
-          {startups.reduce((sum, s) => sum + (s.opportunityCount ?? 0), 0)} open
-          positions across top startups.
-        </p>
+        <ScrollReveal>
+          <div className="inline-flex items-center gap-2 bg-violet-100 dark:bg-violet-900/30 text-violet-600 text-xs font-medium px-3 py-1.5 rounded-full mb-4">
+            <FiZap size={12} />
+            {startups.length} startups actively building
+          </div>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight text-foreground mb-3 leading-tight">
+            Join a <span className="text-violet-600">startup</span>
+          </h1>
+          <p className="text-xl md:text-2xl text-foreground-400 font-normal max-w-lg">
+            Discover{" "}
+            {startups.reduce((sum, s) => sum + (s.opportunityCount ?? 0), 0)}{" "}
+            open positions across top startups.
+          </p>
 
-        {/* CTA Buttons */}
-        <div className="flex items-center gap-3 mt-6 flex-wrap">
-          <Link
-            href="/opportunities"
-            className="flex items-center gap-2 bg-violet-600 text-white text-sm font-semibold px-6 py-3 rounded-lg hover:bg-violet-700 transition-colors"
-          >
-            Browse Opportunities
-            <FiCTA size={14} />
-          </Link>
-          <Link
-            href="/startups"
-            className="flex items-center gap-2 border border-default-200 text-foreground text-sm font-medium px-6 py-3 rounded-lg hover:bg-default-50 transition-colors"
-          >
-            Explore Startups
-          </Link>
-        </div>
+          {/* CTA Buttons */}
+          <div className="flex items-center gap-3 mt-6 flex-wrap">
+            <Link
+              href="/opportunities"
+              className="flex items-center gap-2 bg-violet-600 text-white text-sm font-semibold px-6 py-3 rounded-lg hover:bg-violet-700 transition-colors"
+            >
+              Browse Opportunities
+              <FiCTA size={14} />
+            </Link>
+            <Link
+              href="/startups"
+              className="flex items-center gap-2 border border-default-200 text-foreground text-sm font-medium px-6 py-3 rounded-lg hover:bg-default-50 transition-colors"
+            >
+              Explore Startups
+            </Link>
+          </div>
+        </ScrollReveal>
       </div>
 
       {/* ── Search Bar ── */}

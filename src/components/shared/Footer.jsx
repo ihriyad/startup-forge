@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Separator } from "@heroui/react";
 import { FiMail, FiPhone, FiMapPin } from "react-icons/fi";
 import { FaLinkedin, FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
+import { ScrollReveal } from "../ui/ScrollReveal";
 
 // Modular layout datasets
 const FOOTER_LINKS = [
@@ -45,6 +46,8 @@ export const Footer = () => {
 
   return (
     <footer className="w-full  pt-16 pb-8 border-t border-slate-800">
+      <ScrollReveal>
+
       <div className="max-w-[1280px] mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
         
         {/* Column 1: Custom Branding Block */}
@@ -155,6 +158,7 @@ export const Footer = () => {
           </Link>
         </div>
       </div>
+      </ScrollReveal>
     </footer>
   );
 };
