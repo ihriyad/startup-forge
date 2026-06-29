@@ -79,7 +79,7 @@ export const SuccessStories = () => {
           {/* Manual Control Navigation Hooks for Carousel Actions */}
           <div className="flex items-center gap-3 mt-4">
             <Button
-              size="lg"
+              size="sm"
               variant="secondary"
               radius="full"
               onClick={prevStory}
@@ -89,7 +89,7 @@ export const SuccessStories = () => {
               Previous
             </Button>
             <Button
-              size="lg"
+              size="sm"
               variant="secondary"
               radius="full"
               onClick={prevStory}

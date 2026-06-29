@@ -9,6 +9,7 @@ import {
   LuShieldCheck,
   LuArrowRight,
 } from "react-icons/lu";
+import Link from "next/link";
 
 const PROPOSITIONS = [
   {
@@ -99,6 +100,7 @@ export const WhyJoin = () => {
               creators shipping applications globally right now.
             </p>
           </div>
+          <Link href={"/opportunities"}>
           <Button
             color="primary"
             endContent={
@@ -107,7 +109,7 @@ export const WhyJoin = () => {
             className="bg-violet-600 text-white font-bold text-sm px-6 py-5 rounded-xl shadow-lg shadow-violet-600/20 hover:bg-violet-700 group cursor-pointer w-full md:w-auto"
           >
             Explore Opportunities
-          </Button>
+          </Button></Link>
         </div>
       </div>
     </section>

@@ -210,7 +210,7 @@ export const BrowseOpportunities = ({
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10">
+    <div className="max-w-6xl mx-auto px-4 py-10">
       {/* Page Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-foreground">
