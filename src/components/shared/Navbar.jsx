@@ -10,6 +10,7 @@ import { authClient } from "@/lib/auth-client";
 
 import { Instrument_Sans } from "next/font/google";
 import ProfileDropdown from "./ProfileDropdown";
+import { useRouter } from "next/navigation";
 
 const instrument = Instrument_Sans({
   subsets: ["latin"],
@@ -17,6 +18,7 @@ const instrument = Instrument_Sans({
 });
 
 export const Navbar = () => {
+  const router = useRouter();
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 

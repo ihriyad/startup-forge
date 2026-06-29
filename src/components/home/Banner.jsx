@@ -56,40 +56,39 @@ export const Banner = ({ startups, currentUser }) => {
     <section className="relative w-full pt-8 md:pt-12 overflow-hidden">
       {/* ── Header ── */}
       <div className="max-w-280 mx-auto px-6 mb-8 text-left">
-        <ScrollReveal>
-          <div className="inline-flex items-center gap-2 bg-violet-100 dark:bg-violet-900/30 text-violet-600 text-xs font-medium px-3 py-1.5 rounded-full mb-4">
-            <FiZap size={12} />
-            {startups.length} startups actively building
-          </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight text-foreground mb-3 leading-tight">
-            Join a <span className="text-violet-600">startup</span>
-          </h1>
-          <p className="text-xl md:text-2xl text-foreground-400 font-normal max-w-lg">
-            Discover{" "}
-            {startups.reduce((sum, s) => sum + (s.opportunityCount ?? 0), 0)}{" "}
-            open positions across top startups.
-          </p>
+        <div className="inline-flex items-center gap-2 bg-violet-100 dark:bg-violet-900/30 text-violet-600 text-xs font-medium px-3 py-1.5 rounded-full mb-4">
+          <FiZap size={12} />
+          {startups.length} startups actively building
+        </div>
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight text-foreground mb-3 leading-tight">
+          Join a <span className="text-violet-600">startup</span>
+        </h1>
+        <p className="text-xl md:text-2xl text-foreground-400 font-normal max-w-lg">
+          Discover{" "}
+          {startups.reduce((sum, s) => sum + (s.opportunityCount ?? 0), 0)} open
+          positions across top startups.
+        </p>
 
-          {/* CTA Buttons */}
-          <div className="flex items-center gap-3 mt-6 flex-wrap">
-            <Link
-              href="/opportunities"
-              className="flex items-center gap-2 bg-violet-600 text-white text-sm font-semibold px-6 py-3 rounded-lg hover:bg-violet-700 transition-colors"
-            >
-              Browse Opportunities
-              <FiCTA size={14} />
-            </Link>
-            <Link
-              href="/startups"
-              className="flex items-center gap-2 border border-default-200 text-foreground text-sm font-medium px-6 py-3 rounded-lg hover:bg-default-50 transition-colors"
-            >
-              Explore Startups
-            </Link>
-          </div>
-        </ScrollReveal>
+        {/* CTA Buttons */}
+        <div className="flex items-center gap-3 mt-6 flex-wrap">
+          <Link
+            href="/opportunities"
+            className="flex items-center gap-2 bg-violet-600 text-white text-sm font-semibold px-6 py-3 rounded-lg hover:bg-violet-700 transition-colors"
+          >
+            Browse Opportunities
+            <FiCTA size={14} />
+          </Link>
+          <Link
+            href="/startups"
+            className="flex items-center gap-2 border border-default-200 text-foreground text-sm font-medium px-6 py-3 rounded-lg hover:bg-default-50 transition-colors"
+          >
+            Explore Startups
+          </Link>
+        </div>
       </div>
 
       {/* ── Search Bar ── */}
+
       <div className="max-w-[1000px] mx-auto px-6 relative z-20 mb-[-40px] md:mb-[-80px]">
         <form
           onSubmit={handleSearch}
@@ -155,92 +154,94 @@ export const Banner = ({ startups, currentUser }) => {
       </div>
 
       {/* ── Swiper Carousel ── */}
-      <div className="relative w-full z-10 pt-16">
-        <button
-          ref={prevRef}
-          className="absolute left-4 top-[58%] -translate-y-1/2 z-30 w-10 h-10 rounded-full text-violet-600 bg-background dark:bg-default-100  border-2 border-violet-600 border-default-200 shadow-md flex items-center justify-center hover:bg-default-100 transition-all cursor-pointer focus:outline-none"
-          aria-label="Previous"
-        >
-          <FiArrowLeft size={22} />
-        </button>
-        <button
-          ref={nextRef}
-          className="absolute right-4 top-[58%] -translate-y-1/2 z-30 w-10 h-10 rounded-full  dark:bg-default-100 text-violet-600 border-2 bg-background border-violet-600 shadow-md flex items-center justify-center hover:bg-default-100 transition-all cursor-pointer focus:outline-none"
-          aria-label="Next"
-        >
-          <FiArrowRight size={16} />
-        </button>
+      <ScrollReveal>
+        <div className="relative w-full z-10 pt-16">
+          <button
+            ref={prevRef}
+            className="absolute left-4 top-[58%] -translate-y-1/2 z-30 w-10 h-10 rounded-full text-violet-600 bg-background dark:bg-default-100  border-2 border-violet-600 border-default-200 shadow-md flex items-center justify-center hover:bg-default-100 transition-all cursor-pointer focus:outline-none"
+            aria-label="Previous"
+          >
+            <FiArrowLeft size={22} />
+          </button>
+          <button
+            ref={nextRef}
+            className="absolute right-4 top-[58%] -translate-y-1/2 z-30 w-10 h-10 rounded-full  dark:bg-default-100 text-violet-600 border-2 bg-background border-violet-600 shadow-md flex items-center justify-center hover:bg-default-100 transition-all cursor-pointer focus:outline-none"
+            aria-label="Next"
+          >
+            <FiArrowRight size={16} />
+          </button>
 
-        <Swiper
-          modules={[Autoplay, Navigation]}
-          spaceBetween={0}
-          slidesPerView={1}
-          loop={featured.length > 2}
-          autoplay={{ delay: 4000, disableOnInteraction: false }}
-          onInit={(swiper) => {
-            swiper.params.navigation.prevEl = prevRef.current;
-            swiper.params.navigation.nextEl = nextRef.current;
-            swiper.navigation.init();
-            swiper.navigation.update();
-          }}
-          breakpoints={{
-            640: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 },
-          }}
-          className="w-full h-[320px] md:h-[400px]"
-        >
-          {featured.map((startup) => (
-            <SwiperSlide
-              key={startup._id}
-              className="relative group overflow-hidden border-r border-background/20"
-            >
-              <Link
-                href={`/startups/${startup._id}`}
-                className="block w-full h-full"
+          <Swiper
+            modules={[Autoplay, Navigation]}
+            spaceBetween={0}
+            slidesPerView={1}
+            loop={featured.length > 2}
+            autoplay={{ delay: 4000, disableOnInteraction: false }}
+            onInit={(swiper) => {
+              swiper.params.navigation.prevEl = prevRef.current;
+              swiper.params.navigation.nextEl = nextRef.current;
+              swiper.navigation.init();
+              swiper.navigation.update();
+            }}
+            breakpoints={{
+              640: { slidesPerView: 2 },
+              1024: { slidesPerView: 3 },
+            }}
+            className="w-full h-[320px] md:h-[400px]"
+          >
+            {featured.map((startup) => (
+              <SwiperSlide
+                key={startup._id}
+                className="relative group overflow-hidden border-r border-background/20"
               >
-                <div className="relative w-full h-full">
-                  {startup.logo ? (
-                    <Image
-                      src={startup.logo}
-                      alt={startup.startup_name}
-                      fill
-                      priority
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-violet-500 to-violet-900" />
-                  )}
+                <Link
+                  href={`/startups/${startup._id}`}
+                  className="block w-full h-full"
+                >
+                  <div className="relative w-full h-full">
+                    {startup.logo ? (
+                      <Image
+                        src={startup.logo}
+                        alt={startup.startup_name}
+                        fill
+                        priority
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-violet-500 to-violet-900" />
+                    )}
 
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
 
-                  {/* Bottom info */}
-                  <div className="absolute bottom-6 left-6 text-white flex items-center gap-3">
-                    <div className="w-10 h-10 rounded bg-white text-black font-bold flex items-center justify-center text-sm shadow-md uppercase tracking-wider">
-                      {startup.startup_name?.slice(0, 2)}
+                    {/* Bottom info */}
+                    <div className="absolute bottom-6 left-6 text-white flex items-center gap-3">
+                      <div className="w-10 h-10 rounded bg-white text-black font-bold flex items-center justify-center text-sm shadow-md uppercase tracking-wider">
+                        {startup.startup_name?.slice(0, 2)}
+                      </div>
+                      <div>
+                        <h3 className="text-xl md:text-2xl font-bold tracking-tight">
+                          {startup.startup_name}
+                        </h3>
+                        <p className="text-white/60 text-xs capitalize mt-0.5">
+                          {startup.industry}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="text-xl md:text-2xl font-bold tracking-tight">
-                        {startup.startup_name}
-                      </h3>
-                      <p className="text-white/60 text-xs capitalize mt-0.5">
-                        {startup.industry}
-                      </p>
+
+                    <div className="absolute bottom-6 right-6">
+                      <span className="bg-violet-600 text-white text-xs font-semibold px-3 py-1.5 rounded-lg shadow-sm">
+                        {startup.opportunityCount ?? 0} role
+                        {startup.opportunityCount !== 1 ? "s" : ""}
+                      </span>
                     </div>
                   </div>
-
-                  <div className="absolute bottom-6 right-6">
-                    <span className="bg-violet-600 text-white text-xs font-semibold px-3 py-1.5 rounded-lg shadow-sm">
-                      {startup.opportunityCount ?? 0} role
-                      {startup.opportunityCount !== 1 ? "s" : ""}
-                    </span>
-                  </div>
-                </div>
-              </Link>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
+                </Link>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+      </ScrollReveal>
     </section>
   );
 };
