@@ -55,7 +55,7 @@ export const Banner = ({ startups, currentUser }) => {
   return (
     <section className="relative w-full pt-8 md:pt-12 overflow-hidden">
       {/* ── Header ── */}
-      <div className="max-w-[1100px] mx-auto px-6 mb-8 text-left">
+      <div className="max-w-280 mx-auto px-6 mb-8 text-left">
         <ScrollReveal>
           <div className="inline-flex items-center gap-2 bg-violet-100 dark:bg-violet-900/30 text-violet-600 text-xs font-medium px-3 py-1.5 rounded-full mb-4">
             <FiZap size={12} />
@@ -158,14 +158,14 @@ export const Banner = ({ startups, currentUser }) => {
       <div className="relative w-full z-10 pt-16">
         <button
           ref={prevRef}
-          className="absolute left-4 top-[58%] -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-white dark:bg-default-100 text-foreground border border-default-200 shadow-md flex items-center justify-center hover:bg-default-100 transition-all cursor-pointer focus:outline-none"
+          className="absolute left-4 top-[58%] -translate-y-1/2 z-30 w-10 h-10 rounded-full text-violet-600 bg-background dark:bg-default-100  border-2 border-violet-600 border-default-200 shadow-md flex items-center justify-center hover:bg-default-100 transition-all cursor-pointer focus:outline-none"
           aria-label="Previous"
         >
-          <FiArrowLeft size={16} />
+          <FiArrowLeft size={22} />
         </button>
         <button
           ref={nextRef}
-          className="absolute right-4 top-[58%] -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-white dark:bg-default-100 text-foreground border border-default-200 shadow-md flex items-center justify-center hover:bg-default-100 transition-all cursor-pointer focus:outline-none"
+          className="absolute right-4 top-[58%] -translate-y-1/2 z-30 w-10 h-10 rounded-full  dark:bg-default-100 text-violet-600 border-2 bg-background border-violet-600 shadow-md flex items-center justify-center hover:bg-default-100 transition-all cursor-pointer focus:outline-none"
           aria-label="Next"
         >
           <FiArrowRight size={16} />

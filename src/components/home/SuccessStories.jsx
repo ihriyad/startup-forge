@@ -63,14 +63,14 @@ export const SuccessStories = () => {
 
   return (
     <section className="w-full bg-background text-foreground py-20 px-6 border-t border-divider transition-colors duration-300">
-      <div className="max-w-[1120px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <div className="max-w-280 mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         {/* Left Side: Context Header / Title Column */}
         <div className="lg:col-span-4 flex flex-col gap-4 text-left">
           <ScrollReveal>
-            <div className="inline-flex items-center gap-2 text-violet-600 font-bold text-xs uppercase tracking-widest bg-violet-600/10 dark:bg-violet-600/20 px-3 py-1.5 rounded-full w-fit">
+            <div className="inline-flex items-center gap-2 text-violet-600 font-bold text-xs uppercase tracking-widest bg-violet-600/10 dark:bg-violet-600/20 px-3 py-1.5 mb-4 rounded-md w-fit">
               Wall of Fame
             </div>
-            <h2 className="text-4xl md:text-5xl font-black tracking-tight leading-tight">
+            <h2 className="text-4xl md:text-5xl  tracking-tight leading-tight">
               Stories from the <span className="text-violet-600">Forge.</span>
             </h2>
             <p className="text-sm md:text-base text-default-500 max-w-sm leading-relaxed">
@@ -85,9 +85,9 @@ export const SuccessStories = () => {
                 variant="secondary"
                 radius="full"
                 onClick={prevStory}
-                className="border-violet-600/10 hover:bg-default-100 cursor-pointer"
+                className="text-violet-600"
               >
-                <LuChevronLeft className="text-violet-600" />
+                <LuChevronLeft size={22} />
                 Previous
               </Button>
               <Button
@@ -95,10 +95,10 @@ export const SuccessStories = () => {
                 variant="secondary"
                 radius="full"
                 onClick={prevStory}
-                className="border-violet-600/10 hover:bg-default-100 cursor-pointer"
+                className="text-violet-600 "
               >
                 Next
-                <LuChevronRight className="text-violet-600" />
+                <LuChevronRight size={22} />
               </Button>
             </div>
           </ScrollReveal>
@@ -115,7 +115,7 @@ export const SuccessStories = () => {
 
               <Card.Content className="flex flex-col gap-6 relative z-10 p-0">
                 {/* Badge Metric Callout Overlay info */}
-                <div className="bg-violet-600 text-white text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-md w-fit shadow-md shadow-violet-600/20">
+                <div className="bg-violet-600 text-white text-xs  uppercase tracking-wider px-3 py-1.5 rounded-md w-fit shadow-md shadow-violet-600/20">
                   {active.metrics}
                 </div>
 

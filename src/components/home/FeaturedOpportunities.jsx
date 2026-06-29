@@ -8,7 +8,7 @@ import { ScrollReveal } from "../ui/ScrollReveal";
 
 export const FeaturedOpportunities = ({ opportunities }) => {
   return (
-    <section className="max-w-[1100px] mx-auto px-6 py-16 border-t border-default-100">
+    <section className="max-w-280 mx-auto px-6 py-16 border-t border-default-100">
       
       {/* Header Block Section */}
       <div className="flex items-center justify-between mb-8 flex-wrap gap-4">

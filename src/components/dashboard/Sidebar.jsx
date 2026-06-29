@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Drawer, Button, Avatar, Badge } from "@heroui/react";
+import { Drawer, Button, Avatar } from "@heroui/react";
 import { TbLayoutSidebarLeftCollapse } from "react-icons/tb";
-import React from "react";
+import React, { useRef } from "react";
 
 import {
   LuLayoutDashboard,
@@ -60,7 +60,7 @@ export const NAV_CONFIG = {
       label: "Add Opportunity",
       href: "/dashboard/founder/add-opportunity",
       icon: <LuSquarePlus className="w-4 h-4" />,
-    }, // Fixed here
+    },
     {
       label: "Manage Opportunities",
       href: "/dashboard/founder/manage-opportunities",
@@ -96,6 +96,58 @@ export const NAV_CONFIG = {
   ],
 };
 
+// ── Role
+
+const RoleBadge = ({ role, plan }) => {
+  if (role === "founder") {
+    return plan === "premium" ? (
+      <span className="relative inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold overflow-hidden bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-amber-900 shadow-sm">
+        <span className="absolute inset-0 bg-linear-to-r from-transparent via-white/50 to-transparent animate-[shimmer_2s_infinite] bg-[length:200%_100%]" />
+        <span className="relative">Founder</span>
+      </span>
+    ) : (
+      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-300">
+        Founder
+      </span>
+    );
+  }
+
+  if (role === "admin") {
+    return (
+      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-800 dark:bg-slate-700 text-slate-100 shadow-sm">
+        <span className="relative flex h-1.5 w-1.5 shrink-0">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-400 opacity-75" />
+          <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-slate-300" />
+        </span>
+        Admin
+      </span>
+    );
+  }
+
+  return <span className="text-xs text-default-400">Collaborator</span>;
+};
+
+// ── User info card
+
+const UserInfo = ({ user, avatarSize = "md" }) => (
+  <div className="flex items-center gap-3 border-b border-default-100 py-3 px-2">
+    <div className="border-2 border-violet-600 p-0.5 rounded-full shrink-0">
+      <Avatar size={avatarSize}>
+        <Avatar.Image alt="user avatar" src={user?.image} />
+        <Avatar.Fallback>
+          {user?.name?.slice(0, 2).toUpperCase()}
+        </Avatar.Fallback>
+      </Avatar>
+    </div>
+    <div className="space-y-1 min-w-0">
+      <p className="text-sm font-semibold truncate">{user?.name}</p>
+      <RoleBadge role={user?.role} plan={user?.plan} />
+    </div>
+  </div>
+);
+
+// ── Nav links
+
 const NavLinks = ({ links, pathname, onNavigate }) => (
   <nav className="flex flex-col gap-1">
     {links.map((link) => (
@@ -103,121 +155,76 @@ const NavLinks = ({ links, pathname, onNavigate }) => (
         key={link.href}
         href={link.href}
         onClick={onNavigate}
-        className={`px-3 py-2 rounded-md text-sm flex items-center gap-2 ${
+        className={`px-3 py-2 rounded-md text-sm flex items-center gap-2 transition-colors ${
           pathname === link.href
             ? "bg-violet-600 text-white"
-            : "hover:text-violet-700"
+            : "text-default-600 hover:text-violet-700"
         }`}
       >
-        {link.icon} {link.label}
+        {link.icon}
+        {link.label}
       </Link>
     ))}
   </nav>
 );
 
+// ── Sidebar
+
 export const Sidebar = ({ role, user }) => {
   const pathname = usePathname();
-  const links = NAV_CONFIG[role] || [];
+  const links = NAV_CONFIG[role] ?? [];
+  const closeRef = useRef(null);
+
+  const handleNavigate = () => {
+    // Programmatically click the hidden close trigger on mobile
+    closeRef.current?.click();
+  };
 
   return (
     <>
-      {/* ── Desktop Sidebar ── */}
+      {/* Desktop */}
       <aside className="hidden md:flex w-64 min-h-screen border-r border-default-100 flex-col p-4 gap-6 sticky top-0">
-        {/* User Info */}
-        <div className="flex  border-b rounded-none border-default-100 py-3 px-2 ">
-          <div className="flex gap-3 items-center">
-            <div className="relative border-2 border-violet-600 p-0.5 rounded-full">
-              <Avatar size="md">
-                <Avatar.Image alt="user avatar" src={user?.image} />
-                <Avatar.Fallback>
-                  {user?.name?.slice(0, 2).toUpperCase()}
-                </Avatar.Fallback>
-              </Avatar>
-            </div>
-
-            <div className="space-y-2">
-              <p className="text-sm font-semibold">{user.name}</p>
-              <p className="text-xs text-default-400 capitalize">
-                {user?.role === "founder" ? (
-                  user?.plan === "premium" ? (
-                    // Premium badge
-                    <span className="relative inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold overflow-hidden bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-amber-900 shadow-sm">
-                      {/* shimmer sweep */}
-                      <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent animate-[shimmer_2s_infinite] bg-[length:200%_100%]" />
-                      {/* star icon */}
-
-                      <span className="relative">Founder</span>
-                    </span>
-                  ) : (
-                    // Free badge — subtle violet pulse
-                    <span className="relative inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-300">
-                      Founder
-                    </span>
-                  )
-                ) : user?.role === "admin" ? (
-                  // Admin badge — solid dark with ping dot
-                  <span className="relative inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-800 dark:bg-slate-700 text-slate-100 shadow-sm">
-                    <span className="relative flex h-1.5 w-1.5 shrink-0">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-400 opacity-75" />
-                      <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-slate-300" />
-                    </span>
-                    Admin
-                  </span>
-                ) : (
-                  <span className="text-sm">Collaborator</span>
-                )}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Nav Links */}
+        <UserInfo user={user} />
         <NavLinks links={links} pathname={pathname} />
       </aside>
 
-      {/* ── Mobile Drawer ── */}
+      {/* Mobile drawer */}
       <div className="md:hidden">
         <Drawer>
-          {/* This button is the drawer trigger */}
           <Button
-            isIconOnly
-            variant="light"
-            className="fixed top-4 left-4 z-50"
+            variant="secondary"
+            className="fixed top-16 left-4 z-50 rounded-md text-violet-600"
             aria-label="Open sidebar"
           >
             <TbLayoutSidebarLeftCollapse size={22} />
+            Menu
           </Button>
 
           <Drawer.Backdrop>
             <Drawer.Content placement="left">
               <Drawer.Dialog>
-                <Drawer.CloseTrigger />
+                {/* Hidden close trigger — clicked programmatically on nav */}
+                <Drawer.CloseTrigger
+                  ref={closeRef}
+                  className="sr-only"
+                  aria-hidden
+                />
 
                 <Drawer.Header>
                   <Drawer.Heading>
-                    {/* User Info */}
-                    <div className="flex border rounded-md border-violet-600/30 p-1 gap-1 px-2 pt-2">
-                      <Avatar>
-                        <Avatar.Image alt="Avatar user" src={user?.image} />
-                        <Avatar.Fallback>
-                          {user?.name?.slice(0, 2).toUpperCase()}
-                        </Avatar.Fallback>
-                      </Avatar>
-                      <div>
-                        <p className="text-sm font-semibold">{user.name}</p>
-                        <p className="text-xs text-default-400 capitalize">
-                          {role}
-                        </p>
-                      </div>
-                    </div>
+                    <UserInfo user={user} avatarSize="sm" />
                   </Drawer.Heading>
                 </Drawer.Header>
 
-                <Drawer.Body className="flex flex-col gap-4 px-3">
-                  <NavLinks links={links} pathname={pathname} />
+                <Drawer.Body className="flex flex-col gap-4 px-3 text-sm text-foreground">
+                  <NavLinks
+                    links={links}
+                    pathname={pathname}
+                    onNavigate={handleNavigate}
+                  />
                 </Drawer.Body>
 
-                <Drawer.Footer></Drawer.Footer>
+                <Drawer.Footer />
               </Drawer.Dialog>
             </Drawer.Content>
           </Drawer.Backdrop>

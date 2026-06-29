@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Separator } from "@heroui/react";
+import { Button, Description, Label, Separator } from "@heroui/react";
 import { FiMenu, FiX } from "react-icons/fi";
 import Image from "next/image";
 import { authClient } from "@/lib/auth-client";
@@ -55,6 +55,16 @@ export const Navbar = () => {
     return pathname === href;
   };
 
+  const handleLogout = async () => {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/login");
+        },
+      },
+    });
+  };
+
   const navContent = (
     <ul className="flex flex-col md:flex-row md:items-center text-sm gap-1 p-4 md:p-0">
       {navLinks.map((link) => (
@@ -77,7 +87,9 @@ export const Navbar = () => {
   );
 
   return (
-    <nav className={`${instrument.className} w-full relative z-50`}>
+    <nav
+      className={`${instrument.className} max-w-280 mx-auto w-full relative z-50`}
+    >
       <div className="px-6 h-20 flex items-center justify-between">
         {/* Logo */}
         <Link
@@ -145,9 +157,49 @@ export const Navbar = () => {
 
           <div className="flex flex-col gap-1 pb-2">
             {user ? (
-              <>
-                <p>Welcome, {user?.name}</p>
-              </>
+              <div className="flex justify-between gap-3 items-center text-sm">
+                <div className="flex bg-default p-2 rounded-md items-center gap-4">
+                  <div className="flex flex-col gap-2">
+                    <Label>{user?.name}</Label>
+                    <Description>{user?.email}</Description>
+                  </div>
+                  {user?.role === "founder" ? (
+                    user?.plan === "premium" ? (
+                      // Premium badge
+                      <span className="relative inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold overflow-hidden bg-linear-to-r from-amber-400 via-yellow-300 to-amber-400 text-amber-900 shadow-sm">
+                        {/* shimmer sweep */}
+                        <span className="absolute inset-0 bg-linear-to-r from-transparent via-white/50 to-transparent animate-[shimmer_2s_infinite] bg-size-[200%_100%]" />
+
+                        <span className="relative">Founder</span>
+                      </span>
+                    ) : (
+                      // Free badge — subtle violet pulse
+                      <span className="relative inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-300">
+                        Founder
+                      </span>
+                    )
+                  ) : user?.role === "admin" ? (
+                    // Admin badge — solid dark with ping dot
+                    <span className="relative inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-800 dark:bg-slate-700 text-slate-100 shadow-sm">
+                      <span className="relative flex h-1.5 w-1.5 shrink-0">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-400 opacity-75" />
+                        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-slate-300" />
+                      </span>
+                      Admin
+                    </span>
+                  ) : (
+                    <span className="text-sm">Collaborator</span>
+                  )}
+                </div>
+                <Button
+                  onClick={() => handleLogout()}
+                  size="sm"
+                  className={"rounded-md"}
+                  variant="danger-soft"
+                >
+                  Log Out
+                </Button>
+              </div>
             ) : (
               <>
                 {" "}

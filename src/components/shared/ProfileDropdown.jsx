@@ -1,13 +1,6 @@
 "use client";
 import { authClient } from "@/lib/auth-client";
-import {
-  Avatar,
-  Badge,
-  Description,
-  Dropdown,
-  Label,
-  Separator,
-} from "@heroui/react";
+import { Avatar, Description, Dropdown, Label, Separator } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -17,7 +10,7 @@ const ProfileDropdown = ({ user }) => {
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
-          router.push("/login"); // redirect to login page
+          router.push("/login");
         },
       },
     });
@@ -65,22 +58,12 @@ const ProfileDropdown = ({ user }) => {
                 <Label>{user?.name}</Label>
                 <Description>{user?.email}</Description>
               </div>
-              {/* {user?.role === "founder" ? (
-                <span className={user?.plan === "premium" ? "" : ""}>
-                  {user?.plan === "premium" ? "Premium" : "Free"}
-                </span>
-              ) : user?.role === "admin" ? (
-                <span className="">Admin</span>
-              ) : (
-                ""
-              )} */}
               {user?.role === "founder" ? (
                 user?.plan === "premium" ? (
                   // Premium badge
-                  <span className="relative inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold overflow-hidden bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-amber-900 shadow-sm">
+                  <span className="relative inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold overflow-hidden bg-linear-to-r from-amber-400 via-yellow-300 to-amber-400 text-amber-900 shadow-sm">
                     {/* shimmer sweep */}
-                    <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent animate-[shimmer_2s_infinite] bg-[length:200%_100%]" />
-                    {/* star icon */}
+                    <span className="absolute inset-0 bg-linear-to-r from-transparent via-white/50 to-transparent animate-[shimmer_2s_infinite] bg-[length:200%_100%]" />
 
                     <span className="relative">Founder</span>
                   </span>

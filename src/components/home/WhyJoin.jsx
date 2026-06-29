@@ -42,7 +42,7 @@ const PROPOSITIONS = [
 export const WhyJoin = () => {
   return (
     <section className="w-full bg-background text-foreground py-24 px-6 border-t border-divider transition-colors duration-300">
-      <div className="max-w-[1120px] mx-auto flex flex-col gap-16">
+      <div className="max-w-280 mx-auto flex flex-col gap-16">
         {/* Section Heading Row */}
           <ScrollReveal>
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 max-w-5xl">
@@ -50,7 +50,7 @@ export const WhyJoin = () => {
             <div className="inline-flex items-center gap-2 text-violet-600 font-bold text-xs uppercase tracking-widest bg-violet-600/10 dark:bg-violet-600/20 px-3 py-1.5 rounded-full w-fit">
               The StartupForge Edge
             </div>
-            <h2 className="text-4xl md:text-5xl font-black tracking-tight leading-tight">
+            <h2 className="text-4xl md:text-5xl  tracking-tight leading-tight">
               Why builders choose our{" "}
               <span className="text-violet-600">Ecosystem.</span>
             </h2>
