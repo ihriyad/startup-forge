@@ -84,23 +84,40 @@ const SkillsInput = ({ skills, setSkills }) => {
 export const AddOpportunity = ({ user, startup }) => {
   const router = useRouter();
   const formRef = useRef(null);
-
-   
+  // console.log(startup);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [skills, setSkills] = useState([]);
   const [workType, setWorkType] = useState("");
   const [commitmentLevel, setCommitmentLevel] = useState("");
 
- if (!startup?._id) {
+  if (!startup?._id) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[40vh] gap-4 text-foreground-400">
-        <p className="text-sm">You need to create a startup before posting opportunities.</p>
+        <p className="text-sm">
+          You need to create a startup before posting opportunities.
+        </p>
         <a
           href="/dashboard/founder/my-startup"
           className="text-xs text-violet-600 hover:underline font-medium"
         >
           Create your startup →
+        </a>
+      </div>
+    );
+  }
+  if (startup?.status === "pending") {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[40vh] gap-4 text-foreground-400">
+        <p className="text-sm">
+          Your startup is currently pending approval. You cannot post
+          opportunities until it is approved.
+        </p>
+        <a
+          href="/dashboard/founder/my-startup"
+          className="text-xs text-violet-600 hover:underline font-medium"
+        >
+          View your startup →
         </a>
       </div>
     );

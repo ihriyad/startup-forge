@@ -10,6 +10,7 @@ import {
   updateStartup,
   deleteStartup,
 } from "@/lib/actions/founder/startups";
+import { useRouter } from "next/navigation";
 
 const INDUSTRIES = [
   { id: "technology", label: "Technology" },
@@ -37,6 +38,7 @@ const selectClass = {
 };
 
 export const MyStartup = ({ user, existingStartup }) => {
+  const router = useRouter();
   const formRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -125,9 +127,11 @@ export const MyStartup = ({ user, existingStartup }) => {
       if (existingStartup?._id) {
         await updateStartup(existingStartup._id, payload);
         toast.success("Startup updated successfully.");
+        router.refresh();
       } else {
         await createStartup(payload);
         toast.success("Startup created successfully.");
+        router.refresh();
       }
       setIsEditing(false);
     } catch {
