@@ -10,7 +10,7 @@ export const OpportunityCard = ({ opportunity, currentUser }) => {
     opportunity.deadline && new Date(opportunity.deadline) < new Date();
 
   return (
-    <Card className="relative bg-content1 border-2 border-transparent hover:border-violet-600 transition-all duration-300 rounded-2xl shadow-sm min-h-[280px] sm:min-h-[300px] h-full flex flex-col justify-between group">
+    <Card className="relative hover:bg-background border-2 border-transparent  transition-all duration-300 rounded-2xl shadow-sm min-h-[280px] sm:min-h-[300px] h-full flex flex-col justify-between group">
       
       {/* Invisible Absolute Link Anchor Hook for entire card navigation */}
       <Link 

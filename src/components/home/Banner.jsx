@@ -21,6 +21,7 @@ import { useRouter } from "next/navigation";
 import "swiper/css";
 import "swiper/css/navigation";
 import { ScrollReveal } from "../ui/ScrollReveal";
+import { MdVerified } from "react-icons/md";
 
 const INDUSTRIES = [
   { id: "all", label: "All Industries" },
@@ -66,7 +67,7 @@ export const Banner = ({ startups, currentUser }) => {
         <p className="text-xl md:text-2xl text-foreground-400 font-normal max-w-lg">
           Discover{" "}
           {startups.reduce((sum, s) => sum + (s.opportunityCount ?? 0), 0)} open
-          positions across top startups.
+          positions across top verified startups.
         </p>
 
         {/* CTA Buttons */}
@@ -216,25 +217,25 @@ export const Banner = ({ startups, currentUser }) => {
 
                     {/* Bottom info */}
                     <div className="absolute bottom-6 left-6 text-white flex items-center gap-3">
-                      <div className="w-10 h-10 rounded bg-white text-black font-bold flex items-center justify-center text-sm shadow-md uppercase tracking-wider">
-                        {startup.startup_name?.slice(0, 2)}
-                      </div>
                       <div>
-                        <h3 className="text-xl md:text-2xl font-bold tracking-tight">
-                          {startup.startup_name}
-                        </h3>
-                        <p className="text-white/60 text-xs capitalize mt-0.5">
-                          {startup.industry}
-                        </p>
+                        <div className="flex items-center justify-between space-x-2">
+                          <h3 className="text-xl md:text-2xl font-bold tracking-tight flex items-center gap-1.5">
+                            {startup.startup_name} <MdVerified />
+                          </h3>
+                          <p className="text-white/60 text-xs capitalize mt-0.5">
+                            {startup.industry}
+                          </p>
+                        </div>
+                        <div>
+                          <span className="bg-violet-600 text-white text-xs font-semibold px-3 py-1.5 rounded-lg shadow-sm">
+                            {startup.opportunityCount ?? 0} role
+                            {startup.opportunityCount !== 1 ? "s" : ""}
+                          </span>
+                        </div>
                       </div>
                     </div>
 
-                    <div className="absolute bottom-6 right-6">
-                      <span className="bg-violet-600 text-white text-xs font-semibold px-3 py-1.5 rounded-lg shadow-sm">
-                        {startup.opportunityCount ?? 0} role
-                        {startup.opportunityCount !== 1 ? "s" : ""}
-                      </span>
-                    </div>
+                    <div className="absolute bottom-6 right-6"></div>
                   </div>
                 </Link>
               </SwiperSlide>
